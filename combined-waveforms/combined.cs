@@ -201,11 +201,11 @@ bestparams.distance = 0.02890657f;
 bestparams.stmix = 0f;
                     break;
                     case 6:
-// current score 861
-bestparams.bias = 0.8724341f;
-bestparams.pulsestrength = 1.651281f;
-bestparams.topbit = 1.207028f;
-bestparams.distance = 0.0042649f;
+// current score 841
+bestparams.bias = 0.8856111f;
+bestparams.pulsestrength = 2.299693f;
+bestparams.topbit = 1.163996f;
+bestparams.distance = 0.01210956f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
@@ -221,12 +221,12 @@ bestparams.stmix = 0.2427691f;
             if (chip == 'V') {
                 switch (wave) {
                     case 3:
-// current score 317
-bestparams.bias = 0.9736353f;
+// current score 316
+bestparams.bias = 0.9737178f;
 bestparams.pulsestrength = 0f;
-bestparams.topbit = 0.9931195f;
-bestparams.distance = 2.565597f;
-bestparams.stmix = 0.9484892f;
+bestparams.topbit = 0.9935237f;
+bestparams.distance = 2.540223f;
+bestparams.stmix = 0.9620218f;
                     break;
                     case 5:
 // current score 628
@@ -237,56 +237,56 @@ bestparams.distance = 0.1108298f;
 bestparams.stmix = 0f;
                     break;
                     case 6:
-// current score 610
-bestparams.bias = 0.922026f;
-bestparams.pulsestrength = 2.068005f;
-bestparams.topbit = 0.9600384f;
-bestparams.distance = 0.1464829f;
+// current score 594
+bestparams.bias = 0.9247459f;
+bestparams.pulsestrength = 2.231508f;
+bestparams.topbit = 0.9495742f;
+bestparams.distance = 0.1312631f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
-// current score 206
-bestparams.bias = 0.9758811f;
-bestparams.pulsestrength = 1.003464f;
-bestparams.topbit = 1.004502f;
-bestparams.distance = 1.2674f;
-bestparams.stmix = 0.9923877f;
+// current score 182
+bestparams.bias = 0.977109f;
+bestparams.pulsestrength = 1.062967f;
+bestparams.topbit = 0.9936136f;
+bestparams.distance = 1.306411f;
+bestparams.stmix = 1.054418f;
                     break;
                 }
             }
             if (chip == 'W') {
                 switch (wave) {
                     case 3:
-// current score 330
-bestparams.bias = 0.9690549f;
+// current score 328
+bestparams.bias = 0.968983f;
 bestparams.pulsestrength = 0f;
-bestparams.topbit = 0.9971902f;
-bestparams.distance = 2.23687f;
-bestparams.stmix = 0.8794161f;
+bestparams.topbit = 0.9966918f;
+bestparams.distance = 2.235919f;
+bestparams.stmix = 0.8791203f;
                     break;
                     case 5:
-// current score 792
-bestparams.bias = 0.904946f;
-bestparams.pulsestrength = 2.13395f;
+// current score 784
+bestparams.bias = 0.9069195f;
+bestparams.pulsestrength = 2.203437f;
 bestparams.topbit = 0f;
-bestparams.distance = 0.1372721f;
+bestparams.distance = 0.129717f;
 bestparams.stmix = 0f;
                     break;
                     case 6:
-// current score 822
-bestparams.bias = 0.9091367f;
-bestparams.pulsestrength = 2.053807f;
-bestparams.topbit = 0.9811071f;
-bestparams.distance = 0.1710259f;
+// current score 807
+bestparams.bias = 0.909182f;
+bestparams.pulsestrength = 2.160861f;
+bestparams.topbit = 0.9668066f;
+bestparams.distance = 0.167717f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
-// current score 396
-bestparams.bias = 0.9777961f;
-bestparams.pulsestrength = 0.8058248f;
-bestparams.topbit = 1.031311f;
-bestparams.distance = 2.609809f;
-bestparams.stmix = 0.7870135f;
+// current score 378
+bestparams.bias = 0.9785563f;
+bestparams.pulsestrength = 0.8879046f;
+bestparams.topbit = 1.019291f;
+bestparams.distance = 2.694985f;
+bestparams.stmix = 0.8173286f;
                     break;
                 }
             }
