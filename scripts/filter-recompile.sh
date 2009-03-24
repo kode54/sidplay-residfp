@@ -5,6 +5,10 @@ set -e
 MYDIR=$(dirname $0)
 cd "$MYDIR/../sidplay-libs-2.1.1"
 
+if [[ -e builders/Makefile ]]; then
+    cd builders && make clean && cd ..
+fi
+
 # ensure psiddrv is not recompiled with xa, I don't have it
 touch libsidplay/src/psiddrv.bin
 
