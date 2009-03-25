@@ -245,12 +245,12 @@ bestparams.distance = 0.1312631f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
-// current score 182
-bestparams.bias = 0.977109f;
-bestparams.pulsestrength = 1.062967f;
-bestparams.topbit = 0.9936136f;
-bestparams.distance = 1.306411f;
-bestparams.stmix = 1.054418f;
+// current score 177
+bestparams.bias = 0.9826007f;
+bestparams.pulsestrength = 1.296801f;
+bestparams.topbit = 0.9701104f;
+bestparams.distance = 1.576534f;
+bestparams.stmix = 0.9534868f;
                     break;
                 }
             }
@@ -302,6 +302,8 @@ bestparams.stmix = 0.8173286f;
                 p.topbit *= 1f + tweakscale1 * ((float) random.NextDouble() - 0.5f);
 		p.distance *= 1f + tweakscale1 * ((float) random.NextDouble() - 0.5f);
 		p.stmix *= 1f + tweakscale1 * ((float) random.NextDouble() - 0.5f);
+                if (p.stmix > 1f)
+                    p.stmix = 1f;
 
                 var score = p.Score(wave, reference, false);
                 /* accept if improvement */
