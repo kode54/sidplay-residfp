@@ -245,12 +245,12 @@ bestparams.distance = 0.1312631f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
-// current score 177
-bestparams.bias = 0.9826007f;
-bestparams.pulsestrength = 1.296801f;
-bestparams.topbit = 0.9701104f;
-bestparams.distance = 1.576534f;
-bestparams.stmix = 0.9534868f;
+// current score 168
+bestparams.bias = 0.9845552f;
+bestparams.pulsestrength = 1.380867f;
+bestparams.topbit = 0.9621406f;
+bestparams.distance = 1.592066f;
+bestparams.stmix = 0.9472086f;
                     break;
                 }
             }
