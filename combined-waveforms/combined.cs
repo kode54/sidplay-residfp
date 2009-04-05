@@ -185,12 +185,12 @@ bestparams.stmix = 0.1509331f;
             if (chip == 'G') {
                 switch (wave) {
                     case 3:
-// current score 264
-bestparams.bias = 0.949378f;
+// current score 254
+bestparams.bias = 0.9354494f;
 bestparams.pulsestrength = 0f;
 bestparams.topbit = 0f;
-bestparams.distance = 1.552844f;
-bestparams.stmix = 0.6995564f;
+bestparams.distance = 0.9586969f;
+bestparams.stmix = 0.570428f;
                     break;
                     case 5:
 // current score 362
@@ -201,11 +201,11 @@ bestparams.distance = 0.02890657f;
 bestparams.stmix = 0f;
                     break;
                     case 6:
-// current score 841
-bestparams.bias = 0.8856111f;
-bestparams.pulsestrength = 2.299693f;
-bestparams.topbit = 1.163996f;
-bestparams.distance = 0.01210956f;
+// current score 668
+bestparams.bias = 0.8952018f;
+bestparams.pulsestrength = 2.213601f;
+bestparams.topbit = 1.705941f;
+bestparams.distance = 0.01260567f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
@@ -221,12 +221,12 @@ bestparams.stmix = 0.2427691f;
             if (chip == 'V') {
                 switch (wave) {
                     case 3:
-// current score 316
-bestparams.bias = 0.9737178f;
+// current score 314
+bestparams.bias = 0.9738218f;
 bestparams.pulsestrength = 0f;
-bestparams.topbit = 0.9935237f;
-bestparams.distance = 2.540223f;
-bestparams.stmix = 0.9620218f;
+bestparams.topbit = 0.992848f;
+bestparams.distance = 2.547508f;
+bestparams.stmix = 0.9599405f;
                     break;
                     case 5:
 // current score 628
@@ -237,11 +237,11 @@ bestparams.distance = 0.1108298f;
 bestparams.stmix = 0f;
                     break;
                     case 6:
-// current score 594
-bestparams.bias = 0.9247459f;
-bestparams.pulsestrength = 2.231508f;
-bestparams.topbit = 0.9495742f;
-bestparams.distance = 0.1312631f;
+// current score 593
+bestparams.bias = 0.9248214f;
+bestparams.pulsestrength = 2.232846f;
+bestparams.topbit = 0.9491023f;
+bestparams.distance = 0.1313893f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
@@ -257,12 +257,12 @@ bestparams.stmix = 0.9472086f;
             if (chip == 'W') {
                 switch (wave) {
                     case 3:
-// current score 328
-bestparams.bias = 0.968983f;
+// current score 319
+bestparams.bias = 0.9686383f;
 bestparams.pulsestrength = 0f;
-bestparams.topbit = 0.9966918f;
-bestparams.distance = 2.235919f;
-bestparams.stmix = 0.8791203f;
+bestparams.topbit = 0.9963791f;
+bestparams.distance = 2.21016f;
+bestparams.stmix = 0.8968357f;
                     break;
                     case 5:
 // current score 784
@@ -273,20 +273,20 @@ bestparams.distance = 0.129717f;
 bestparams.stmix = 0f;
                     break;
                     case 6:
-// current score 807
-bestparams.bias = 0.909182f;
-bestparams.pulsestrength = 2.160861f;
-bestparams.topbit = 0.9668066f;
-bestparams.distance = 0.167717f;
+// current score 764
+bestparams.bias = 0.9074827f;
+bestparams.pulsestrength = 2.184185f;
+bestparams.topbit = 0.9717882f;
+bestparams.distance = 0.1274436f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
-// current score 378
-bestparams.bias = 0.9785563f;
-bestparams.pulsestrength = 0.8879046f;
-bestparams.topbit = 1.019291f;
-bestparams.distance = 2.694985f;
-bestparams.stmix = 0.8173286f;
+// current score 213
+bestparams.bias = 0.9882526f;
+bestparams.pulsestrength = 1.729343f;
+bestparams.topbit = 0.9398671f;
+bestparams.distance = 2.652093f;
+bestparams.stmix = 0.9998723f;
                     break;
                 }
             }
@@ -295,7 +295,7 @@ bestparams.stmix = 0.8173286f;
             var bestscore = bestparams.Score(wave, reference, true);
             Console.Write("// initial score {0}\n\n", bestscore);
             while (true) {
-                var tweakscale1 = (float) random.NextDouble() * 0.25f;
+                var tweakscale1 = (float) random.NextDouble() * 0.5f;
                 var p = bestparams;
                 p.bias *= 1f + tweakscale1 * ((float) random.NextDouble() - 0.5f);
                 p.pulsestrength *= 1f + tweakscale1 * ((float) random.NextDouble() - 0.5f);
