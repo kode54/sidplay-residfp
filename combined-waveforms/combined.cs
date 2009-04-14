@@ -107,6 +107,16 @@ bestparams.stmix = {4}f;",
     }
 
     class Optimizer {
+        static readonly Random random = new Random();
+
+        private static float GetRandomValue() {
+            var t = 1f - (float) random.NextDouble() * 0.5f;
+            if (random.NextDouble() > 0.5) {
+                return 1f / t;
+            }
+            return t;
+        }
+
         private static void Optimize(int[] reference, int wave, char chip)
         {
             var bestparams = new Parameters();
@@ -185,19 +195,19 @@ bestparams.stmix = 0.1509331f;
             if (chip == 'G') {
                 switch (wave) {
                     case 3:
-// current score 254
-bestparams.bias = 0.9354494f;
+// current score 252
+bestparams.bias = 0.9393118f;
 bestparams.pulsestrength = 0f;
 bestparams.topbit = 0f;
-bestparams.distance = 0.9586969f;
-bestparams.stmix = 0.570428f;
+bestparams.distance = 1.038816f;
+bestparams.stmix = 0.5292149f;
                     break;
                     case 5:
-// current score 362
-bestparams.bias = 0.895557f;
-bestparams.pulsestrength = 2.094213f;
+// current score 360
+bestparams.bias = 0.8924618f;
+bestparams.pulsestrength = 2.01122f;
 bestparams.topbit = 0f;
-bestparams.distance = 0.02890657f;
+bestparams.distance = 0.03133072f;
 bestparams.stmix = 0f;
                     break;
                     case 6:
@@ -291,17 +301,15 @@ bestparams.stmix = 0.9998723f;
                 }
             }
 
-            var random = new Random();
             var bestscore = bestparams.Score(wave, reference, true);
             Console.Write("// initial score {0}\n\n", bestscore);
             while (true) {
-                var tweakscale1 = (float) random.NextDouble() * 0.5f;
                 var p = bestparams;
-                p.bias *= 1f + tweakscale1 * ((float) random.NextDouble() - 0.5f);
-                p.pulsestrength *= 1f + tweakscale1 * ((float) random.NextDouble() - 0.5f);
-                p.topbit *= 1f + tweakscale1 * ((float) random.NextDouble() - 0.5f);
-		p.distance *= 1f + tweakscale1 * ((float) random.NextDouble() - 0.5f);
-		p.stmix *= 1f + tweakscale1 * ((float) random.NextDouble() - 0.5f);
+                p.bias *= GetRandomValue();
+                p.pulsestrength *= GetRandomValue();
+                p.topbit *= GetRandomValue();
+		p.distance *= GetRandomValue();
+		p.stmix *= GetRandomValue();
                 if (p.stmix > 1f)
                     p.stmix = 1f;
 
