@@ -5,16 +5,12 @@ using System.IO;
 
 namespace sidwaveforms {
     class Parameters {
-        public float bias { get; set; }
-        public float pulsestrength { get; set; }
-        public float topbit { get; set; }
-        public float distance { get; set; }
-        public float stmix { get; set; }
+        public float bias, pulsestrength, topbit, distance, stmix;
 
         public int Score(int wave, int[] reference, bool print, int bestscore) {
             var score = 0;
             var wa = new float[12 + 12 + 1];
-            for (int i = 0; i <= 12; i ++) {
+            for (var i = 0; i <= 12; i ++) {
                 wa[12-i] = wa[12+i] = 1.0f / (1.0f + i * i * distance);
             }
             for (var j = 4095; j >= 0; j --) {
@@ -320,8 +316,8 @@ bestparams.stmix = 1f;
                 var changed = false;
                 while (! changed) {
                     foreach (var el in new string[] { "bias", "pulsestrength", "topbit", "distance", "stmix" }) {
-                        var property = typeof(Parameters).GetProperty(el);
-                        var oldValue = (float) property.GetValue(bestparams, null);
+                        var field = typeof(Parameters).GetField(el);
+                        var oldValue = (float) field.GetValue(bestparams);
                         var newValue = oldValue;
                         if (random.NextDouble() > 0.5) {
                             newValue *= GetRandomValue();
@@ -331,7 +327,7 @@ bestparams.stmix = 1f;
                             }
                         }
 
-                        property.SetValue(p, newValue, null);
+                        field.SetValue(p, newValue);
                         changed = changed || oldValue != newValue;
                     }
                 }
