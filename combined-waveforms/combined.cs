@@ -4,26 +4,34 @@ using System.Globalization;
 using System.IO;
 
 namespace sidwaveforms {
-    struct Parameters {
-        public float bias, pulsestrength, topbit, distance, stmix;
+    class Parameters {
+        public float bias { get; set; }
+        public float pulsestrength { get; set; }
+        public float topbit { get; set; }
+        public float distance { get; set; }
+        public float stmix { get; set; }
 
-        public int Score(int wave, int[] reference, bool print) {
-            int score = 0;
-            for (int j = 0; j < 4096; j ++) {
+        public int Score(int wave, int[] reference, bool print, int bestscore) {
+            var score = 0;
+            var wa = new float[12 + 12 + 1];
+            for (int i = 0; i <= 12; i ++) {
+                wa[12-i] = wa[12+i] = 1.0f / (1.0f + i * i * distance);
+            }
+            for (var j = 4095; j >= 0; j --) {
 
                 /* S */
                 var bitarray = new float[12];
-                for (int i = 0; i < 12; i ++)
+                for (var i = 0; i < 12; i ++)
                     bitarray[i] = (j & (1 << i)) != 0 ? 1.0f : 0.0f;
                 bitarray[11] *= topbit;
 
                 /* T */
                 if ((wave & 3) == 1) {
-                    bool top = (j & 2048) != 0;
-                    for (int i = 11; i > 0; i --) {
+                    var top = (j & 2048) != 0;
+                    for (var i = 11; i > 0; i --) {
                         if (top) {
                             bitarray[i] = 1.0f - bitarray[i-1];
-                        } else {
+                        } else {
                             bitarray[i] = bitarray[i-1];
                         }
                     }
@@ -32,13 +40,13 @@ namespace sidwaveforms {
 
                 /* ST */
                 if ((wave & 3) == 3) {
-                    for (int i = 11; i > 0; i --) {
+                    for (var i = 11; i > 0; i --) {
                         bitarray[i] = bitarray[i-1] * (1f - stmix) + bitarray[i] * stmix;
                     }
                     bitarray[0] *= stmix;
                 }
 
-                SimulateMix(bitarray, wave > 4);
+                SimulateMix(bitarray, wa, wave > 4);
 
                 var simval = GetScore8(bitarray);
                 var refval = reference[j];
@@ -47,39 +55,39 @@ namespace sidwaveforms {
                 if (print) {
                     Console.WriteLine("{0} {1} {2}", j, refval, simval);
                 }
+
+                if (score > bestscore) {
+                    return score;
+                }
             }
             return score;
         }
 
-        private void SimulateMix(float[] bitarray, bool HasPulse) {
+        private void SimulateMix(float[] bitarray, float[] wa, bool HasPulse) {
             var tmp = new float[12];
-            var wa = new float[12 + 12 + 1];
-            for (int i = 0; i <= 12; i ++) {
-                wa[12-i] = wa[12+i] = 1.0f / (1.0f + i * i * distance);
-            }
 
             for (int sb = 0; sb < 12; sb ++) {
-                float n = 0;
-                float avg = 0;
-                for (int cb = 0; cb < 12; cb ++) {
-                    float weight = wa[sb - cb + 12];
+                var n = 0f;
+                var avg = 0f;
+                for (var cb = 0; cb < 12; cb ++) {
+                    var weight = wa[sb - cb + 12];
                     avg += bitarray[cb] * weight;
                     n += weight;
                 }
                 if (HasPulse) {
-                    float weight = wa[sb - 12 + 12];
+                    var weight = wa[sb - 12 + 12];
                     avg += pulsestrength * weight;
                     n += weight;
                 }
                 tmp[sb] = (bitarray[sb] + avg / n) * 0.5f;
             }
-            for (int i = 0; i < 12; i ++)
+            for (var i = 0; i < 12; i ++)
                 bitarray[i] = tmp[i];
         }
 
         private int GetScore8(float[] bitarray) {
             var result = 0;
-            for (int cb = 0; cb < 8; cb ++) {
+            for (var cb = 0; cb < 8; cb ++) {
                 if (bitarray[4+cb] > bias)
                     result |= 1 << cb;
             }
@@ -87,10 +95,12 @@ namespace sidwaveforms {
         }
 
         private static int ScoreResult(int a, int b) {
-            int v = a ^ b;
-            int c;
-            for (c = 0; v != 0; c ++)
-              v &= v - 1;
+            var v = a ^ b;
+            var c = 0;
+            while (v != 0) {
+                v &= v - 1;
+                c ++;
+            }
             return c;
         }
         
@@ -113,8 +123,9 @@ bestparams.stmix = {4}f;",
             var t = 1f - (float) random.NextDouble() * 0.5f;
             if (random.NextDouble() > 0.5) {
                 return 1f / t;
+            } else {
+                return t;
             }
-            return t;
         }
 
         private static void Optimize(int[] reference, int wave, char chip)
@@ -267,12 +278,12 @@ bestparams.stmix = 0.9472086f;
             if (chip == 'W') {
                 switch (wave) {
                     case 3:
-// current score 319
+// current score 314
 bestparams.bias = 0.9686383f;
 bestparams.pulsestrength = 0f;
-bestparams.topbit = 0.9963791f;
-bestparams.distance = 2.21016f;
-bestparams.stmix = 0.8968357f;
+bestparams.topbit = 0.9955494f;
+bestparams.distance = 2.141108f;
+bestparams.stmix = 0.9635284f;
                     break;
                     case 5:
 // current score 784
@@ -283,40 +294,52 @@ bestparams.distance = 0.129717f;
 bestparams.stmix = 0f;
                     break;
                     case 6:
-// current score 764
+// current score 759
 bestparams.bias = 0.9074827f;
-bestparams.pulsestrength = 2.184185f;
-bestparams.topbit = 0.9717882f;
-bestparams.distance = 0.1274436f;
+bestparams.pulsestrength = 2.181073f;
+bestparams.topbit = 0.9776345f;
+bestparams.distance = 0.1201432f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
-// current score 213
+// current score 211
 bestparams.bias = 0.9882526f;
-bestparams.pulsestrength = 1.729343f;
-bestparams.topbit = 0.9398671f;
-bestparams.distance = 2.652093f;
-bestparams.stmix = 0.9998723f;
+bestparams.pulsestrength = 1.736355f;
+bestparams.topbit = 0.9395381f;
+bestparams.distance = 2.698372f;
+bestparams.stmix = 1f;
                     break;
                 }
             }
 
-            var bestscore = bestparams.Score(wave, reference, true);
+            var bestscore = bestparams.Score(wave, reference, true, 32768);
             Console.Write("// initial score {0}\n\n", bestscore);
+            
+            var p = new Parameters();
             while (true) {
-                var p = bestparams;
-                p.bias *= GetRandomValue();
-                p.pulsestrength *= GetRandomValue();
-                p.topbit *= GetRandomValue();
-		p.distance *= GetRandomValue();
-		p.stmix *= GetRandomValue();
-                if (p.stmix > 1f)
-                    p.stmix = 1f;
+                var changed = false;
+                while (! changed) {
+                    foreach (var el in new string[] { "bias", "pulsestrength", "topbit", "distance", "stmix" }) {
+                        var property = typeof(Parameters).GetProperty(el);
+                        var oldValue = (float) property.GetValue(bestparams, null);
+                        var newValue = oldValue;
+                        if (random.NextDouble() > 0.5) {
+                            newValue *= GetRandomValue();
+                            if (el == "stmix") {
+                                if (newValue > 1f)
+                                    newValue = 1f;
+                            }
+                        }
 
-                var score = p.Score(wave, reference, false);
+                        property.SetValue(p, newValue, null);
+                        changed = changed || oldValue != newValue;
+                    }
+                }
+                var score = p.Score(wave, reference, false, bestscore);
                 /* accept if improvement */
                 if (score <= bestscore) {
                     bestparams = p;
+                    p = new Parameters();
                     bestscore = score;
                     Console.Write("// current score {0}\n{1}\n\n", score, bestparams);
                 }
@@ -326,7 +349,7 @@ bestparams.stmix = 0.9998723f;
         private static int[] ReadChip(int wave, char chip) {
             Console.WriteLine("Reading chip: {0}", chip);
             var result = new int[4096];
-            int i = 0;
+            var i = 0;
             foreach (var line in
                 File.ReadAllLines(string.Format("sidwaves/WAVE{0:X}.CSV", wave))
             ) {
