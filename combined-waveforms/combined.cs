@@ -116,7 +116,7 @@ bestparams.stmix = {4}f;",
         static readonly Random random = new Random();
 
         private static float GetRandomValue() {
-            var t = 1f - (float) random.NextDouble() * 0.5f;
+            var t = 1f - (float) random.NextDouble() * 0.99f;
             if (random.NextDouble() > 0.5) {
                 return 1f / t;
             } else {
@@ -286,15 +286,15 @@ bestparams.stmix = 0.9635284f;
 bestparams.bias = 0.9069195f;
 bestparams.pulsestrength = 2.203437f;
 bestparams.topbit = 0f;
-bestparams.distance = 1.129717f;
+bestparams.distance = 0.129717f;
 bestparams.stmix = 0f;
                     break;
                     case 6:
-// current score 759
-bestparams.bias = 0.9074827f;
-bestparams.pulsestrength = 2.181073f;
-bestparams.topbit = 0.9776345f;
-bestparams.distance = 0.1201432f;
+// current score 757
+bestparams.bias = 0.9075199f;
+bestparams.pulsestrength = 2.180424f;
+bestparams.topbit = 0.9760311f;
+bestparams.distance = 0.1208313f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
