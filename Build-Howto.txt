@@ -1,3 +1,6 @@
+Linux build
+===========
+
 The directories sidplay-libs-2.1.1 for the libs, and sidplay-2.0.9 for the
 client are the important ones. You need to build the libs before the client
 program.
@@ -23,3 +26,14 @@ If you want to build debian packages, the usual way to do this applies once the
 autoreconf step has been performed. You would execute "fakeroot debian/rules
 binary-arch" in libs, install the debs, and then in the client directory, and
 install the sidplay2 program.
+
+Install the ini/sidplay2.ini file to your $HOME/.sidplay directory.
+
+Win32 build
+===========
+
+You should install MSVC 2008 Express (it's free). Then open the sln file from
+sidplay-2.0.9/win, and compile a Release build. The binaries will be spit out
+in bin directory at the trunk level. You must copy the sidplay2.ini file from
+ini directory to your $USERPROFILE/Application Data/sidplay2 directory.
+(Make it first if it doesn't exist.)
