@@ -41,9 +41,7 @@ namespace sidwaveforms {
                     }
                 }
                 
-                /* top bit is unused on T */
-                if ((wave & 3) != 1)
-                    bitarray[11] *= topbit;
+                bitarray[11] *= topbit;
 
                 SimulateMix(bitarray, wa, wave > 4);
 
@@ -52,7 +50,17 @@ namespace sidwaveforms {
                 score += ScoreResult(simval, refval);
 
                 if (print) {
-                    Console.WriteLine("{0} {1} {2}", j, refval, simval);
+                    float analogval = 0;
+                    for (int i = 0; i < 12; i ++) {
+                        float val = (bitarray[i] - bias) * 512 + 0.5f;
+                        if (val < 0)
+                            val = 0;
+                        if (val > 1)
+                            val = 1;
+                        analogval += val * (1 << i);
+                    }
+                    analogval /= 16f;
+                    Console.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0} {1} {2} {3}", j, refval, simval, analogval));
                 }
 
                 if (score > bestscore) {
@@ -133,18 +141,18 @@ bestparams.stmix = {4}f;",
             if (chip == 'D') {
                 switch (wave) {
                     case 3:
-// current score 256
-bestparams.bias = 0.9321273f;
+// current score 240
+bestparams.bias = 0.9634957f;
 bestparams.pulsestrength = 0f;
 bestparams.topbit = 0f;
-bestparams.distance = 1.355193f;
-bestparams.stmix = 0.7808291f;
+bestparams.distance = 4.165269f;
+bestparams.stmix = 0.8020396f;
                     break;
                     case 5:
 // current score 600
 bestparams.bias = 0.8931507f;
 bestparams.pulsestrength = 2.483499f;
-bestparams.topbit = 0f;
+bestparams.topbit = 1.0f;
 bestparams.distance = 0.03339716f;
 bestparams.stmix = 0f;
                     break;
@@ -180,7 +188,7 @@ bestparams.stmix = 0.7588146f;
 // current score 166
 bestparams.bias = 0.9161022f;
 bestparams.pulsestrength = 1.879311f;
-bestparams.topbit = 0f;
+bestparams.topbit = 1.0f;
 bestparams.distance = 0.02331964f;
 bestparams.stmix = 0f;
                     break;
@@ -216,7 +224,7 @@ bestparams.stmix = 0.7887034f;
 // current score 360
 bestparams.bias = 0.8924618f;
 bestparams.pulsestrength = 2.01122f;
-bestparams.topbit = 0f;
+bestparams.topbit = 1.0f;
 bestparams.distance = 0.03133072f;
 bestparams.stmix = 0f;
                     break;
@@ -241,18 +249,18 @@ bestparams.stmix = 0.7752482f;
             if (chip == 'V') {
                 switch (wave) {
                     case 3:
-// current score 315
+// current score 311
 bestparams.bias = 0.9781665f;
 bestparams.pulsestrength = 0f;
 bestparams.topbit = 0.9927619f;
-bestparams.distance = 3.659599f;
-bestparams.stmix = 0.9750077f;
+bestparams.distance = 3.705556f;
+bestparams.stmix = 0.9659713f;
                     break;
                     case 5:
 // current score 628
 bestparams.bias = 0.9236207f;
 bestparams.pulsestrength = 2.19129f;
-bestparams.topbit = 0f;
+bestparams.topbit = 1f;
 bestparams.distance = 0.1108298f;
 bestparams.stmix = 0f;
                     break;
@@ -288,7 +296,7 @@ bestparams.stmix = 0.9635284f;
 // current score 784
 bestparams.bias = 0.9069195f;
 bestparams.pulsestrength = 2.203437f;
-bestparams.topbit = 0f;
+bestparams.topbit = 1f;
 bestparams.distance = 0.129717f;
 bestparams.stmix = 0f;
                     break;
@@ -312,7 +320,7 @@ bestparams.stmix = 1f;
             }
 
             var bestscore = bestparams.Score(wave, reference, true, 32768);
-            Console.Write("// initial score {0}\n\n", bestscore);
+            Console.Write("# initial score {0}\n\n", bestscore);
             
             var p = new Parameters();
             while (true) {
@@ -340,7 +348,7 @@ bestparams.stmix = 1f;
                     bestparams = p;
                     p = new Parameters();
                     bestscore = score;
-                    Console.Write("// current score {0}\n{1}\n\n", score, bestparams);
+                    Console.Write("# current score {0}\n{1}\n\n", score, bestparams);
                 }
             }
         }
