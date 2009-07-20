@@ -18,15 +18,14 @@ namespace sidwaveforms {
                 /* S */
                 var bitarray = new float[12];
                 for (var i = 0; i < 12; i ++)
-                    bitarray[i] = (j & (1 << i)) != 0 ? 1.0f : 0.0f;
-                bitarray[11] *= topbit;
+                    bitarray[i] = (j & (1 << i)) != 0 ? 1f : 0f;
 
                 /* T */
                 if ((wave & 3) == 1) {
                     var top = (j & 2048) != 0;
                     for (var i = 11; i > 0; i --) {
                         if (top) {
-                            bitarray[i] = 1.0f - bitarray[i-1];
+                            bitarray[i] = 1f - bitarray[i-1];
                         } else {
                             bitarray[i] = bitarray[i-1];
                         }
@@ -36,11 +35,15 @@ namespace sidwaveforms {
 
                 /* ST */
                 if ((wave & 3) == 3) {
-                    for (var i = 11; i > 0; i --) {
+                    bitarray[0] *= stmix;
+                    for (var i = 1; i < 12; i ++) {
                         bitarray[i] = bitarray[i-1] * (1f - stmix) + bitarray[i] * stmix;
                     }
-                    bitarray[0] *= stmix;
                 }
+                
+                /* top bit is unused on T */
+                if ((wave & 3) != 1)
+                    bitarray[11] *= topbit;
 
                 SimulateMix(bitarray, wa, wave > 4);
 
@@ -75,7 +78,7 @@ namespace sidwaveforms {
                     avg += pulsestrength * weight;
                     n += weight;
                 }
-                tmp[sb] = (bitarray[sb] + avg / n) * 0.5f;
+                tmp[sb] = bitarray[sb] * 0.50f + avg / n * 0.50f;
             }
             for (var i = 0; i < 12; i ++)
                 bitarray[i] = tmp[i];
@@ -116,7 +119,7 @@ bestparams.stmix = {4}f;",
         static readonly Random random = new Random();
 
         private static float GetRandomValue() {
-            var t = 1f - (float) random.NextDouble() * 0.99f;
+            var t = 1f - (float) random.NextDouble() * 0.9f;
             if (random.NextDouble() > 0.5) {
                 return 1f / t;
             } else {
@@ -130,12 +133,12 @@ bestparams.stmix = {4}f;",
             if (chip == 'D') {
                 switch (wave) {
                     case 3:
-// current score 278
+// current score 256
 bestparams.bias = 0.9321273f;
 bestparams.pulsestrength = 0f;
 bestparams.topbit = 0f;
-bestparams.distance = 0.8860587f;
-bestparams.stmix = 0.5655726f;
+bestparams.distance = 1.355193f;
+bestparams.stmix = 0.7808291f;
                     break;
                     case 5:
 // current score 600
@@ -154,24 +157,24 @@ bestparams.distance = 0.02267573f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
-// current score 44
-bestparams.bias = 0.9266459f;
-bestparams.pulsestrength = 0.7393153f;
+// current score 32
+bestparams.bias = 0.9842906f;
+bestparams.pulsestrength = 2.772751f;
 bestparams.topbit = 0f;
-bestparams.distance = 0.0598464f;
-bestparams.stmix = 0.1851717f;
+bestparams.distance = 0.4342486f;
+bestparams.stmix = 1f;
                     break;
                 }
             }
             if (chip == 'E') {
                 switch (wave) {
                     case 3:
-// current score 144
+// current score 112
 bestparams.bias = 0.9689716f;
 bestparams.pulsestrength = 0f;
 bestparams.topbit = 0f;
-bestparams.distance = 1.92f;
-bestparams.stmix = 0.718864f;
+bestparams.distance = 3.088513f;
+bestparams.stmix = 0.7588146f;
                     break;
                     case 5:
 // current score 166
@@ -190,24 +193,24 @@ bestparams.distance = 0.006426161f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
-// current score 2
-bestparams.bias = 0.9493611f;
-bestparams.pulsestrength = 0.6681492f;
+// current score 8
+bestparams.bias = 0.911324f;
+bestparams.pulsestrength = 2.959469E-07f;
 bestparams.topbit = 0f;
-bestparams.distance = 0.04524437f;
-bestparams.stmix = 0.1509331f;
+bestparams.distance = 4.148929E-06f;
+bestparams.stmix = 1f;
                     break;
                 }
             }
             if (chip == 'G') {
                 switch (wave) {
                     case 3:
-// current score 252
-bestparams.bias = 0.9393118f;
+// current score 188
+bestparams.bias = 0.9506974f;
 bestparams.pulsestrength = 0f;
 bestparams.topbit = 0f;
-bestparams.distance = 1.038816f;
-bestparams.stmix = 0.5292149f;
+bestparams.distance = 2.104169f;
+bestparams.stmix = 0.7887034f;
                     break;
                     case 5:
 // current score 360
@@ -226,24 +229,24 @@ bestparams.distance = 0.01260567f;
 bestparams.stmix = 0f;
                     break;
                     case 7:
-// current score 10
-bestparams.bias = 0.9322878f;
-bestparams.pulsestrength = 0.9076391f;
+// current score 12
+bestparams.bias = 0.9527834f;
+bestparams.pulsestrength = 1.794777f;
 bestparams.topbit = 0f;
-bestparams.distance = 0.05378763f;
-bestparams.stmix = 0.5269188f;
+bestparams.distance = 0.09806272f;
+bestparams.stmix = 0.7752482f;
                     break;
                 }
             }
             if (chip == 'V') {
                 switch (wave) {
                     case 3:
-// current score 314
-bestparams.bias = 0.9738218f;
+// current score 315
+bestparams.bias = 0.9781665f;
 bestparams.pulsestrength = 0f;
-bestparams.topbit = 0.992848f;
-bestparams.distance = 2.547508f;
-bestparams.stmix = 0.9599405f;
+bestparams.topbit = 0.9927619f;
+bestparams.distance = 3.659599f;
+bestparams.stmix = 0.9750077f;
                     break;
                     case 5:
 // current score 628
@@ -264,21 +267,21 @@ bestparams.stmix = 0f;
                     case 7:
 // current score 168
 bestparams.bias = 0.9845552f;
-bestparams.pulsestrength = 1.380867f;
-bestparams.topbit = 0.9621406f;
-bestparams.distance = 1.592066f;
-bestparams.stmix = 0.9472086f;
+bestparams.pulsestrength = 1.381085f;
+bestparams.topbit = 0.9621315f;
+bestparams.distance = 1.699522f;
+bestparams.stmix = 1f;
                     break;
                 }
             }
             if (chip == 'W') {
                 switch (wave) {
                     case 3:
-// current score 314
+// current score 315
 bestparams.bias = 0.9686383f;
 bestparams.pulsestrength = 0f;
 bestparams.topbit = 0.9955494f;
-bestparams.distance = 2.141108f;
+bestparams.distance = 2.141501f;
 bestparams.stmix = 0.9635284f;
                     break;
                     case 5:
