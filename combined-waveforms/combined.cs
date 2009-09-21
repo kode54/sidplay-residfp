@@ -103,12 +103,14 @@ namespace sidwaveforms {
 
         private static int ScoreResult(int a, int b) {
             var v = a ^ b;
-            var c = 0;
+            return v;
+/*            var c = 0;
             while (v != 0) {
                 v &= v - 1;
                 c ++;
             }
             return c;
+*/
         }
         
         public override string ToString() {
@@ -319,7 +321,7 @@ bestparams.stmix = 1f;
                 }
             }
 
-            var bestscore = bestparams.Score(wave, reference, true, 32768);
+            var bestscore = bestparams.Score(wave, reference, true, 4096 * 255);
             Console.Write("# initial score {0}\n\n", bestscore);
             
             var p = new Parameters();
