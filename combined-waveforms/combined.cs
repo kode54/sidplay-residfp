@@ -119,7 +119,8 @@ namespace sidwaveforms {
 bestparams.pulsestrength = {1}f;
 bestparams.topbit = {2}f;
 bestparams.distance = {3}f;
-bestparams.stmix = {4}f;",
+bestparams.stmix = {4}f;
+new waveformconfig_t({0}f, {1}f, {2}f, {3}f, {4}f)",
                 bias, pulsestrength, topbit, distance, stmix
             );
         }
@@ -251,12 +252,12 @@ bestparams.stmix = 0.7752482f;
             if (chip == 'V') {
                 switch (wave) {
                     case 3:
-// current score 311
+// current score 5546
 bestparams.bias = 0.9781665f;
 bestparams.pulsestrength = 0f;
-bestparams.topbit = 0.9927619f;
-bestparams.distance = 3.705556f;
-bestparams.stmix = 0.9659713f;
+bestparams.topbit = 0.9899469f;
+bestparams.distance = 8.077209f;
+bestparams.stmix = 0.8226412f;
                     break;
                     case 5:
 // current score 628
