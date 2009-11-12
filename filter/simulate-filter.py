@@ -18,26 +18,20 @@ Vhp = 0
 w0 = 0.0628318
 distortion_rate = 1
 res = 15
-cft = 1.2e-4
-lp_bp = 1.414
 
 def do_filter_combined():
     Q = 0.707 + res / 15.
     global Vi, Vbp, Vlp, Vhp
-    lpleak = Vi * res / 15. / 10.
 
-    sum = Vlp + Vbp + Vhp
-    Vlp += (sum - Vlp) * cft
-    Vbp += (sum - Vbp) * cft
-    Vhp += (sum - Vhp) * cft
-
-    Vlp -= w0 * (Vbp - lpleak) * lp_bp
+    Vlp -= w0 * Vbp
     Vbp -= w0 * Vhp
-    Vhp = (Vbp + lpleak) / Q - Vlp / lp_bp - Vi * distortion_rate
+    Vhp_construction = Vbp / Q - Vlp - Vi
+    Vhp = Vhp_construction * 0.5
     
 FFT_SIZE = 8192
-def main_fft(variable, level):
-    global Vi
+def main_fft(variable, _res):
+    global Vi, res
+    res = _res;
 
     if (variable == 'Vlp'):
         def func(): return Vlp
@@ -57,13 +51,13 @@ def main_fft(variable, level):
         raise RuntimeError, "Unknown variable: %s" % variable
 
     tmp1 = []
-    Vi = level;
+    Vi = 1.0;
     for x in range(FFT_SIZE):
         do_filter_combined()
         tmp1.append(func())
         Vi = 0
 
-    accum1 = abs(fft(tmp1) / level) ** 2
+    accum1 = abs(fft(tmp1)) ** 2
 
     for i in range(len(accum1)/2):
         print "%f %f" % (float(i) / FFT_SIZE * 1000000, pow2db(accum1[i]))
