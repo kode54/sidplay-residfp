@@ -25,12 +25,11 @@ def main():
 
     result = []
     for cf in cutoffs:
-
-        # XXX for precise measurements, define a correction function
-        # to match hp and lp levels.
-
+        
+        # no correction function, but we should also dump
+        # the difference between lp and hp.
         lp = read_xy_file(fnlp % cf, lambda x, y: 0)
-        hp = read_xy_file(fnhp % cf, lambda x, y: 1.5)
+        hp = read_xy_file(fnhp % cf, lambda x, y: 0)
 
         noise_threshold = 3
         cf_est = 0

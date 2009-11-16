@@ -20,7 +20,7 @@ distortion_rate = 1
 res = 15
 
 def do_filter_combined():
-    Q = 0.707 + res / 15.
+    Q = 0.5 + res / 20.
     global Vi, Vbp, Vlp, Vhp
 
     Vlp -= w0 * Vbp
