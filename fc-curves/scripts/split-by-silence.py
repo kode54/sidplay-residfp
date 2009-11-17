@@ -66,8 +66,8 @@ def split_wave(input, pattern, multiplier=8):
         _sum /= readlen
         sum = (sum * 15 + _sum) / 16;
 
-        start = _max > 0.5# or sum > 5e-7
-        end = _min < -0.5# or sum < 1e-7
+        start = _max > 0.2# or sum > 5e-7
+        end = _min < -0.2# or sum < 1e-7
 
         # trigger silence
         if end:

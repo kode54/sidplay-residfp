@@ -26,7 +26,7 @@ def do_filter_combined():
     Vlp -= w0 * Vbp
     Vbp -= w0 * Vhp
     Vhp_construction = Vbp / Q - Vlp - Vi
-    Vhp = Vhp_construction * 0.5
+    Vhp = Vhp_construction * 0.6
     
 FFT_SIZE = 8192
 def main_fft(variable, _res):
