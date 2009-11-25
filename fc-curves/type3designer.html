@@ -203,8 +203,14 @@ function optimize() {
     var i = 250;
     while (i --) {
         var tryvals = {};
+        var changed = false;
         for (var key in bestvals) {
-            tryvals[key] = bestvals[key] * (0.98 + Math.random(1) * 0.04)
+            if (Math.random(1) > 0.5) {
+                tryvals[key] = bestvals[key] * (0.95 + Math.random(1) * 0.1);
+                changed = true;
+            } else {
+                tryvals[key] = bestvals[key];
+            }
         }
 
         var tryscore = scoring(make_type3_list(tryvals));
