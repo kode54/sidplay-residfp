@@ -28,7 +28,6 @@ var $ = function(selector) {
     return null;
 };
 
-var dac = 0.966;
 var cap = 470e-12;
 var ymin = 140;
 var ymax = 24000;
@@ -52,14 +51,14 @@ function make_type3_list(vals) {
         var value = 0;
 	var bit = 1;
 	var weight = 1;
-	var dir = 2 * dac;
+	var dir = 2 * vals.dac;
         for (var i = 0; i < 11; i ++) {
             if (x & bit)
                 value += weight;
 	    bit <<= 1;
 	    weight *= dir;
 	}
-        return value / (weight / dac / dac) * (1 << 11);
+        return value / (weight / vals.dac / vals.dac) * (1 << 11);
     };
 
     var list = [];
@@ -162,7 +161,7 @@ function update_view() {
     draw_lines(ctx, list1.map(function(x) { return [x[0], x[1]/1.1]; }));
 
     var vals = {};
-    ['baseresistance', 'offset', 'steepness', 'minimumfetresistance'].forEach(function(x) {
+    ['baseresistance', 'offset', 'steepness', 'minimumfetresistance', 'dac'].forEach(function(x) {
         vals[x] = parseFloat($("#" + x).value);
     });
 
@@ -195,7 +194,7 @@ function optimize() {
     };
 
     var bestvals = {};
-    ['baseresistance', 'offset', 'steepness', 'minimumfetresistance'].forEach(function(x) {
+    ['baseresistance', 'offset', 'steepness', 'minimumfetresistance', 'dac'].forEach(function(x) {
         bestvals[x] = parseFloat($("#" + x).value);
     });
 
@@ -222,7 +221,7 @@ function optimize() {
 }
 
 onload = function() {
-    ['type1def', 'baseresistance', 'offset', 'steepness', 'minimumfetresistance'
+    ['type1def', 'baseresistance', 'offset', 'steepness', 'minimumfetresistance', 'dac'
     ].forEach(function(x) {
         $("#" + x).onchange = update_view;
     });
@@ -542,6 +541,10 @@ soundcards have imperfect frequency response in that range during recording.
     <tr>
         <td>MinimumFETResistance:</td>
         <td><input type="text" id="minimumfetresistance" value="1.9e4" title="controls behaviour at the very top end"/></td>
+    </tr>
+    <tr>
+        <td>DAC:</td>
+        <td><input type="text" id="dac" value="0.96" title="Kinkedness"/></td>
     </tr>
 </table>
     <input type="button" id="optimize" value="Optimize"/>
