@@ -25,3 +25,19 @@ VIC of sidplay2, and to perhaps fix other small problems.
 See you in VICE, or the land of Java.
 
 Antti
+
+========================================
+
+Addition from Leandro "drfiemost" Nini, 28/09/2010
+
+As Antti Lankila switched his focus on other projects from now on I'll keep
+maintaining (lib)sidplay2.
+Following Antti's suggestions I started by integrating VICE's version of
+resid-fp to make easy porting fixes, with the effect of switching the output
+back from float to 16 bit signed integers.
+Since I'm developing my own music player my interest in sidplay (the executable)
+is limited so I'll try to keep it in sync with changes to the library but it
+may be broken from time to time.
+
+Feel free to contact me at:
+drfiemost (at) users.sourceforge.net
