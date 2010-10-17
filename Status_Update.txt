@@ -41,3 +41,18 @@ may be broken from time to time.
 
 Feel free to contact me at:
 drfiemost (at) users.sourceforge.net
+
+========================================
+
+Update - 17/10/2010
+
+The current trunk now contains the resid-fp engine aligned with the VICE's
+version and should be in a usable state.
+The resid-builder branch adds a new builder based on the original reSID code,
+with some fixes from VICE, beside the residfp one. It still need some working
+on filter loading because the two engines uses different filter format.
+
+The Windows build files and the spec files are most likey broken,
+fixes are welcome.
+
+
