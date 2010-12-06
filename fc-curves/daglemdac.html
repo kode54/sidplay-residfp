@@ -13,7 +13,7 @@ var $ = function(selector) {
 
 var term = false;
 var dac = 0.966;
-var _2R_div_R = 1.80;
+var _2R_div_R = 2.22;
 var INFINITY = 1e6;
 var bits = 12;
 
@@ -38,17 +38,22 @@ function make_type3_list(l1, l2) {
                 }
             }
 
+
+            // Source transformation for bit voltage.
+            if (Rn == INFINITY) {
+                Rn = _2R;
+            } else {
+                Rn = _2R*Rn/(_2R + Rn);  // 2R || Rn
+                Vn = Vn*Rn/_2R;
+            }
+
             // Calculate DAC output voltage by repeated source transformation from
             // the "tail".
             for (; bit < bits; bit++) {
-                if (Rn == INFINITY) {
-	                Rn = R + _2R;
-                }
-                else {
-	                Rn = _2R*Rn/(_2R + Rn);  // 2R || Rn
-	                Vn = Vn*Rn/_2R;
-	                Rn = R + Rn;             // R + 2R || Rn
-                }
+                Rn += R;
+                var I = Vn/Rn;
+                Rn = _2R*Rn/(_2R + Rn);  // 2R || Rn
+                Vn = Rn*I;
             }
 
             vbit[set_bit] = Vn;
