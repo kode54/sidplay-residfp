@@ -3,7 +3,7 @@
 set -e
 
 MYDIR=$(dirname $0)
-cd "$MYDIR/../sidplay-libs-2.1.1"
+cd "$MYDIR/../libsidplayfp"
 
 # compile
 CXXFLAGS="-O2 -ffast-math -fPIC" \
