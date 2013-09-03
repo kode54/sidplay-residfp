@@ -1,10 +1,9 @@
 .phony: all clean
 
-all: combined.exe
+all: combined${EXT}
 
 clean:
-	rm -f combined.exe
+	rm -f combined${EXT}
 
-%.exe: %.cs
-	gmcs -optimize -d:DEBUG "$<"
-
+%{EXT}: %.cpp
+	$(CXX) "$<"
