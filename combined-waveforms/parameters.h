@@ -79,7 +79,7 @@ public:
 
     std::string toString()
     {
-        std::stringstream ss;
+        std::ostringstream ss;
         ss << "bias = " << bias << std::endl;
         ss << "pulsestrength = " << pulsestrength << std::endl;
         ss << "topbit = " << topbit << std::endl;
@@ -128,6 +128,7 @@ private:
 
     static int ScoreResult(int a, int b)
     {
+        // audible error
         int v = a ^ b;
         return v;
 /*      int c = 0;

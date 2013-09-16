@@ -38,14 +38,7 @@ static double randomNextDouble()
 static float GetRandomValue()
 {
     const float t = 1.f - (float) randomNextDouble() * 0.9f;
-    if (randomNextDouble() > 0.5)
-    {
-        return 1.f / t;
-    }
-    else
-    {
-        return t;
-    }
+    return (randomNextDouble() > 0.5) ? 1.f / t : t;
 }
 
 static void Optimize(const std::vector<int> &reference, int wave, char chip)
@@ -253,7 +246,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
         {
             for (int i = Parameters::BIAS; i <= Parameters::STMIX; i++)
             {
-                float oldValue = bestparams.GetValue(i);
+                const float oldValue = bestparams.GetValue(i);
                 float newValue = oldValue;
                 if (randomNextDouble() > 0.5)
                 {
@@ -269,7 +262,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
                 changed = changed || oldValue != newValue;
             }
         }
-        int score = p.Score(wave, reference, false, bestscore);
+        const int score = p.Score(wave, reference, false, bestscore);
         /* accept if improvement */
         if (score <= bestscore)
         {
@@ -284,7 +277,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
 static std::vector<std::string> split(const std::string &s, char delim)
 {
     std::vector<std::string> elems;
-    std::stringstream ss(s);
+    std::istringstream ss(s);
     std::string item;
     while (std::getline(ss, item, delim))
     {
@@ -298,7 +291,7 @@ static std::vector<int> ReadChip(int wave, char chip)
     std::cout << "Reading chip: " << chip << std::endl;
     std::vector<int> result;
 
-    std::stringstream fileName;
+    std::ostringstream fileName;
     fileName << "sidwaves/WAVE" << wave << ".CSV";
     std::ifstream ifs(fileName.str().c_str(), std::ifstream::in);
     std::string line;
@@ -318,10 +311,10 @@ int main(int argc, const char* argv[])
         exit(-1);
     }
 
-    int wave = atoi(argv[1]);
+    const int wave = atoi(argv[1]);
     assert(wave == 3 || wave == 5 || wave == 6 || wave == 7); 
 
-    char chip = argv[2][0];
+    const char chip = argv[2][0];
     assert(chip >= 'A' && chip <= 'Z');
 
     std::vector<int> reference = ReadChip(wave, chip);
