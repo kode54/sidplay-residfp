@@ -1,9 +1,9 @@
-.phony: all clean
+.PHONY: all clean
 
-all: combined${EXT}
+all: combined
 
 clean:
-	rm -f combined${EXT}
+	$(RM) combined
 
-%{EXT}: %.cpp
-	$(CXX) "$<"
+%: %.cpp
+	$(CXX) $(CXXFLAGS) $< -o $@
