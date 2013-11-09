@@ -49,36 +49,36 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
         switch (wave)
         {
         case 3:
-            // current score 3128
-            bestparams.bias = 0.963895f;
+            // current score 2740
+            bestparams.bias = 0.987103f;
             bestparams.pulsestrength = 0.f;
             bestparams.topbit = 0.f;
-            bestparams.distance = 11.1269f;
-            bestparams.stmix = 0.684475f;
+            bestparams.distance = 37.294f;
+            bestparams.stmix = 0.783281f;
             break;
         case 5:
-            // current score 19188
-            bestparams.bias = 0.893101f;
-            bestparams.pulsestrength = 2.26513f;
-            bestparams.topbit = 0.996915f;
-            bestparams.distance = 0.0476716f;
+            // current score 18404
+            bestparams.bias = 0.888048f;
+            bestparams.pulsestrength = 2.26606f;
+            bestparams.topbit = 0.99697f;
+            bestparams.distance = 0.0422943f;
             bestparams.stmix = 0.f;
             break;
         case 6:
-            // current score 18855
-            bestparams.bias = 0.886921f;
-            bestparams.pulsestrength = 2.35614f;
-            bestparams.topbit = 1.77836f;
-            bestparams.distance = 0.0238781f;
+            // current score 18839
+            bestparams.bias = 0.886823f;
+            bestparams.pulsestrength = 2.35161f;
+            bestparams.topbit = 1.77758f;
+            bestparams.distance = 0.0236612f;
             bestparams.stmix = 0.f;
             break;
         case 7:
-            // current score 490
-            bestparams.bias = 0.941437f;
-            bestparams.pulsestrength = 1.69832f;
+            // current score 484
+            bestparams.bias = 0.942084f;
+            bestparams.pulsestrength = 1.7099f;
             bestparams.topbit = 0.f;
-            bestparams.distance = 0.0996135f;
-            bestparams.stmix = 0.952017f;
+            bestparams.distance = 0.100442f;
+            bestparams.stmix = 0.95824f;
             break;
         }
     }
@@ -87,12 +87,12 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
         switch (wave)
         {
         case 3:
-            // current score 765
-            bestparams.bias = 0.968891f;
+            // current score 721
+            bestparams.bias = 0.957552f;
             bestparams.pulsestrength = 0.f;
             bestparams.topbit = 0.f;
-            bestparams.distance = 3.10373f;
-            bestparams.stmix = 0.733387f;
+            bestparams.distance = 1.80014f;
+            bestparams.stmix = 0.698112f;
             break;
         case 5:
             // current score 5552
@@ -163,12 +163,12 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
         switch (wave)
         {
         case 3:
-            // current score 5371
+            // current score 5339
             bestparams.bias = 0.979807f;
             bestparams.pulsestrength = 0.f;
             bestparams.topbit = 0.990736f;
-            bestparams.distance = 9.23845f;
-            bestparams.stmix = 0.82445f;
+            bestparams.distance = 9.22678f;
+            bestparams.stmix = 0.824563f;
             break;
         case 5:
             // current score 18507
@@ -201,36 +201,36 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
         switch (wave)
         {
         case 3:
-            // current score 6859
+            // current score 6648
             bestparams.bias = 0.986102f;
-            bestparams.pulsestrength = 0.f;
-            bestparams.topbit = 0.995207f;
-            bestparams.distance = 8.9704f;
-            bestparams.stmix = 0.943427f;
+            bestparams.pulsestrength = 0.f; // 458120
+            bestparams.topbit = 0.995344f;
+            bestparams.distance = 8.64964f;
+            bestparams.stmix = 0.957502f;
             break;
         case 5:
-            // current score 25428
-            bestparams.bias = 0.907137f;
-            bestparams.pulsestrength = 2.40935f;
-            bestparams.topbit = 0.947396f;
-            bestparams.distance = 0.167719f;
-            bestparams.stmix = 0.f;
+            // current score 24634
+            bestparams.bias = 0.906838f;
+            bestparams.pulsestrength = 2.23245f;
+            bestparams.topbit = 0.958234f;
+            bestparams.distance = 0.205228f;
+            bestparams.stmix = 0.0475253f;
             break;
         case 6:
-            // current score 22905
-            bestparams.bias = 0.890474f;
-            bestparams.pulsestrength = 1.64149f;
+            // current score 22693
+            bestparams.bias = 0.889691f;
+            bestparams.pulsestrength = 1.64253f;
             bestparams.topbit = 0.977121f;
-            bestparams.distance = 0.308259f;
-            bestparams.stmix = 0.f;
+            bestparams.distance = 0.293443f;
+            bestparams.stmix = 0.f; // 4.65769e-013
             break;
         case 7:
-            // current score 5248
+            // current score 5182
             bestparams.bias = 0.956644f;
-            bestparams.pulsestrength = 1.50435f;
-            bestparams.topbit = 0.942937f;
-            bestparams.distance = 0.522595f;
-            bestparams.stmix = 0.957164f;
+            bestparams.pulsestrength = 1.50249f;
+            bestparams.topbit = 0.943326f;
+            bestparams.distance = 0.520891f;
+            bestparams.stmix = 0.956507f;
             break;
         }
     }
@@ -251,10 +251,10 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
                 if (randomNextDouble() > 0.5)
                 {
                     newValue *= GetRandomValue();
-                    if (i == Parameters::STMIX)
+
+                    if ((i == Parameters::STMIX) && (newValue > 1.f))
                     {
-                        if (newValue > 1.f)
-                            newValue = 1.f;
+                        newValue = 1.f;
                     }
                 }
 
