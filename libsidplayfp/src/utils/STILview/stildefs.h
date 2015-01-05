@@ -44,7 +44,7 @@
 #endif
 
 /* Deprecated attributes */
-#if defined(_MSCVER)
+#if defined(_MSC_VER)
 #  define STIL_DEPRECATED __declspec(deprecated)
 #elif defined(__GNUC__)
 #  define STIL_DEPRECATED __attribute__ ((deprecated))
