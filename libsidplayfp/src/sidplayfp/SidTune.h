@@ -25,6 +25,7 @@
 
 #include <stdint.h>
 #include <memory>
+#include <vector>
 
 #include "sidplayfp/siddefs.h"
 
@@ -73,8 +74,9 @@ public:  // ----------------------------------------------------------------
      * @param fileNameExt
      * @param separatorIsSlash
      */
+    typedef void (*SidTuneLoaderFunc)(const char* fileName,std::vector<uint_least8_t>& bufferRef);
     SidTune(const char* fileName, const char **fileNameExt = 0,
-            bool separatorIsSlash = false);
+            bool separatorIsSlash = false, SidTuneLoaderFunc loaderFunc = 0);
 
     /**
      * Load a single-file sidtune from a memory buffer.
@@ -103,7 +105,7 @@ public:  // ----------------------------------------------------------------
      * @param fileName
      * @param separatorIsSlash
      */
-    void load(const char* fileName, bool separatorIsSlash = false);
+    void load(const char* fileName, bool separatorIsSlash = false, SidTuneLoaderFunc loaderFunc = 0);
 
     /**
      * Load a sidtune into an existing object from a buffer.

@@ -64,7 +64,7 @@ protected:
 
 protected:
     /// Also PSID file format limit.
-    static const unsigned int MAX_SONGS = 256;
+    enum {MAX_SONGS = 256};
 
     // Generic error messages
     static const char ERR_TRUNCATED[];
@@ -89,7 +89,8 @@ public:  // ----------------------------------------------------------------
      * @return the sid tune
      * @throw loadError
      */
-    static SidTuneBase* load(const char* fileName, const char **fileNameExt, bool separatorIsSlash);
+    typedef void (*SidTuneLoaderFunc)(const char* fileName, std::vector<uint_least8_t>& bufferRef);
+    static SidTuneBase* load(const char* fileName, const char **fileNameExt, bool separatorIsSlash, SidTuneLoaderFunc loaderFunc);
 
     /**
      * Load a single-file sidtune from a memory buffer.
@@ -226,7 +227,7 @@ private:  // ---------------------------------------------------------------
 #if !defined(SIDTUNE_NO_STDIN_LOADER)
     static SidTuneBase* getFromStdIn();
 #endif
-    static SidTuneBase* getFromFiles(const char* name, const char **fileNameExtensions, bool separatorIsSlash);
+    static SidTuneBase* getFromFiles(const char* name, const char **fileNameExtensions, bool separatorIsSlash, SidTuneLoaderFunc loaderFunc = nullptr);
 
     /**
      * Try to retrieve single-file sidtune from specified buffer.

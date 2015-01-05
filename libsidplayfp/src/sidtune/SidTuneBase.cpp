@@ -91,11 +91,10 @@ const uint_least32_t MAX_MEMORY = 65536;
 /// C64KB + LOAD + PSID
 const uint_least32_t MAX_FILELEN = MAX_MEMORY + 2 + 0x7C;
 
-/// Minimum load address for real c64 only tunes
-const uint_least16_t SIDTUNE_R64_MIN_LOAD_ADDR = 0x07e8;
-
+const uint_least32_t MAX_MEMORY = 65536;
+    
 SidTuneBase* SidTuneBase::load(const char* fileName, const char **fileNameExt,
-                 bool separatorIsSlash)
+                 bool separatorIsSlash, SidTuneLoaderFunc loaderFunc)
 {
     if (fileName == nullptr)
         return nullptr;
@@ -105,7 +104,7 @@ SidTuneBase* SidTuneBase::load(const char* fileName, const char **fileNameExt,
     if (strcmp(fileName, "-") == 0)
         return getFromStdIn();
 #endif
-    return getFromFiles(fileName, fileNameExt, separatorIsSlash);
+    return getFromFiles(fileName, fileNameExt, separatorIsSlash, loaderFunc);
 }
 
 SidTuneBase* SidTuneBase::read(const uint_least8_t* sourceBuffer, uint_least32_t bufferLen)
@@ -371,8 +370,11 @@ void SidTuneBase::createNewFileName(std::string& destString,
 
 // Initializing the object based upon what we find in the specified file.
 
-SidTuneBase* SidTuneBase::getFromFiles(const char* fileName, const char **fileNameExtensions, bool separatorIsSlash)
+SidTuneBase* SidTuneBase::getFromFiles(const char* fileName, const char **fileNameExtensions, bool separatorIsSlash, SidTuneLoaderFunc loadFile)
 {
+    if (!loadFile)
+        loadFile = &SidTuneBase::loadFile;
+    
     buffer_t fileBuf1;
 
     loadFile(fileName, fileBuf1);
@@ -450,9 +452,7 @@ void SidTuneBase::convertOldStyleSpeedToTables(uint_least32_t speed, SidTuneInfo
     //
     // This routine implements the PSIDv2NG compliant speed conversion. All tunes
     // above 32 use the same song speed as tune 32
-    // NOTE: The cast here is used to avoid undefined references
-    // as the std::min function takes its parameters by reference
-    const unsigned int toDo = std::min(info->m_songs, static_cast<unsigned int>(MAX_SONGS));
+    const unsigned int toDo = std::min(info->m_songs, (unsigned int)MAX_SONGS);
     for (unsigned int s = 0; s < toDo; s++)
     {
         clockSpeed[s] = clock;
