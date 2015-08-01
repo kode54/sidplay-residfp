@@ -11,7 +11,9 @@
 
 #define HAVE_STRNICMP 1
 
-#define snprintf sprintf_s
+#if _MSC_VER < 1900
+  #define snprintf sprintf_s
+#endif
 
 #define PACKAGE_NAME "reSIDfp"
 #define PACKAGE_VERSION "2.0.0alpha"
