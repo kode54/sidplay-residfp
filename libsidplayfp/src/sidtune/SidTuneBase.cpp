@@ -92,7 +92,10 @@ const uint_least32_t MAX_MEMORY = 65536;
 const uint_least32_t MAX_FILELEN = MAX_MEMORY + 2 + 0x7C;
 
 const uint_least32_t MAX_MEMORY = 65536;
-    
+
+/// Minimum load address for real c64 only tunes
+const uint_least16_t SIDTUNE_R64_MIN_LOAD_ADDR = 0x07e8;
+
 SidTuneBase* SidTuneBase::load(const char* fileName, const char **fileNameExt,
                  bool separatorIsSlash, SidTuneLoaderFunc loaderFunc)
 {
