@@ -91,6 +91,7 @@ const uint_least32_t MAX_MEMORY = 65536;
 /// C64KB + LOAD + PSID
 const uint_least32_t MAX_FILELEN = MAX_MEMORY + 2 + 0x7C;
 
+/// The Commodore 64 memory size
 const uint_least32_t MAX_MEMORY = 65536;
 
 /// Minimum load address for real c64 only tunes

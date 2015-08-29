@@ -81,13 +81,12 @@ public:  // ----------------------------------------------------------------
      * contructor. Please note, that if the specified "sidTuneFileName"
      * does exist and the loader is able to determine its file format,
      * this function does not try to append any file name extension.
-     * See "SidTune.cpp" for the default list of file name extensions.
+     * See "sidtune.cpp" for the default list of file name extensions.
      *
      * @param fileName
      * @param fileNameExt
      * @param separatorIsSlash
-     * @return the sid tune
-     * @throw loadError
+     * @return
      */
     typedef void (*SidTuneLoaderFunc)(const char* fileName, std::vector<uint_least8_t>& bufferRef);
     static SidTuneBase* load(const char* fileName, const char **fileNameExt, bool separatorIsSlash, SidTuneLoaderFunc loaderFunc);
@@ -98,8 +97,7 @@ public:  // ----------------------------------------------------------------
      *
      * @param sourceBuffer
      * @param bufferLen
-     * @return the sid tune
-     * @throw loadError
+     * @return
      */
     static SidTuneBase* read(const uint_least8_t* sourceBuffer, uint_least32_t bufferLen);
 
@@ -108,7 +106,7 @@ public:  // ----------------------------------------------------------------
      * and return active song number out of [1,2,..,SIDTUNE_MAX_SONGS].
      *
      * @param songNum
-     * @return the active song
+     * @return
      */
     unsigned int selectSong(unsigned int songNum);
 
@@ -122,6 +120,7 @@ public:  // ----------------------------------------------------------------
      * and retrieve active song information.
      *
      * @param songNum
+     * @return
      */
     const SidTuneInfo* getInfo(unsigned int songNum);
 
@@ -167,7 +166,6 @@ protected:
      *
      * @param fileName
      * @param bufferRef
-     * @throw loadError
      */
     static void loadFile(const char* fileName, buffer_t& bufferRef);
 
@@ -212,6 +210,11 @@ protected:
      * correctly.
      * You do not need these extra functions if your systems file
      * separator is the forward slash.
+     *
+     * @param dataFileName
+     * @param infoFileName
+     * @param buf
+     * @param isSlashedFileName
      * @throw loadError
      */
     virtual void acceptSidTune(const char* dataFileName, const char* infoFileName,
@@ -220,7 +223,13 @@ protected:
     /**
      * Petscii to Ascii converter.
      */
-    std::string petsciiToAscii(SmartPtr_sidtt<const uint8_t>& spPet);
+    class PetsciiToAscii
+    {
+    private:
+        std::string buffer;
+    public:
+        const char* convert(SmartPtr_sidtt<const uint_least8_t>& spPet);
+    };
 
 private:  // ---------------------------------------------------------------
 
