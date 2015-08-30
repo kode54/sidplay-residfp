@@ -86,7 +86,8 @@ public:  // ----------------------------------------------------------------
      * @param fileName
      * @param fileNameExt
      * @param separatorIsSlash
-     * @return
+     * @return the sid tune
+     * @throw loadError
      */
     typedef void (*SidTuneLoaderFunc)(const char* fileName, std::vector<uint_least8_t>& bufferRef);
     static SidTuneBase* load(const char* fileName, const char **fileNameExt, bool separatorIsSlash, SidTuneLoaderFunc loaderFunc);
@@ -97,7 +98,8 @@ public:  // ----------------------------------------------------------------
      *
      * @param sourceBuffer
      * @param bufferLen
-     * @return
+     * @return the sid tune
+     * @throw loadError
      */
     static SidTuneBase* read(const uint_least8_t* sourceBuffer, uint_least32_t bufferLen);
 
@@ -106,7 +108,7 @@ public:  // ----------------------------------------------------------------
      * and return active song number out of [1,2,..,SIDTUNE_MAX_SONGS].
      *
      * @param songNum
-     * @return
+     * @return the active song
      */
     unsigned int selectSong(unsigned int songNum);
 
@@ -120,7 +122,6 @@ public:  // ----------------------------------------------------------------
      * and retrieve active song information.
      *
      * @param songNum
-     * @return
      */
     const SidTuneInfo* getInfo(unsigned int songNum);
 
@@ -166,6 +167,7 @@ protected:
      *
      * @param fileName
      * @param bufferRef
+     * @throw loadError
      */
     static void loadFile(const char* fileName, buffer_t& bufferRef);
 
@@ -210,11 +212,6 @@ protected:
      * correctly.
      * You do not need these extra functions if your systems file
      * separator is the forward slash.
-     *
-     * @param dataFileName
-     * @param infoFileName
-     * @param buf
-     * @param isSlashedFileName
      * @throw loadError
      */
     virtual void acceptSidTune(const char* dataFileName, const char* infoFileName,
