@@ -91,6 +91,9 @@ if (unpack("n", $version) > 1) {
 
 	if (unpack("n", $version) > 2) {
 		printf "2nd SID Model: %s\n", $model {($flags & 0xC0) >> 6};
+		if (unpack("n", $version) > 3) {
+			printf "3rd SID Model: %s\n", $model {($flags & 0x300) >> 8};
+		}
 	}
 
 	sysread $bin, my $startPage, 1;
@@ -100,11 +103,13 @@ if (unpack("n", $version) > 1) {
 	printf "Page Length: \$%02x\n", unpack("C", $pageLength);
 
 	sysread $bin, my $secondSIDAddress, 1;
+	sysread $bin, my $thirdSIDAddress, 1;
 	if (unpack("n", $version) > 2) {
 		printf "2nd SID Address: \$D%02x0\n", unpack("C", $secondSIDAddress);
+		if (unpack("n", $version) > 3) {
+			printf "3rd SID Address: \$D%02x0\n", unpack("C", $thirdSIDAddress);
+		}
 	}
-
-	sysread $bin, my $reserved, 1;
 }
 
 if (unpack("n", $loadAddress) == 0) {
