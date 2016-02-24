@@ -60,12 +60,12 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             bestparams.stmix = 1.67553e-18f;
             break;
         case 5:
-            // current score 6990
-            bestparams.bias = 0.87429f;
-            bestparams.pulsestrength = 1.0945f;
-            bestparams.topbit = 1.02086f;
-            bestparams.distance = 0.0205134f;
-            bestparams.stmix = 2.41493e-20f;
+            // current score 6862
+            bestparams.bias = 0.875107f;
+            bestparams.pulsestrength = 1.15164f;
+            bestparams.topbit = 1.01654f;
+            bestparams.distance = 0.0203668f;
+            bestparams.stmix = 0.f;
             break;
         case 6:
             // current score 0
@@ -85,32 +85,33 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R2 (odd)
     case 'C':
         switch (wave)
         {
         case 3:
-            // current score 16456
-            bestparams.bias = 0.0130142f;
-            bestparams.pulsestrength = 7.68501e-16f;
-            bestparams.topbit = 4.11629e-06f;
-            bestparams.distance = 2.02978e-16f;
-            bestparams.stmix = 0.00170112f;
+            // current score 12420
+            bestparams.bias = 0.764782f;
+            bestparams.pulsestrength = 0.f;
+            bestparams.topbit = 1.80768e-027f;
+            bestparams.distance = 0.f;
+            bestparams.stmix = 0.432898f;
             break;
         case 5:
-            // current score 71364
+            // current score 65788
             bestparams.bias = 0.91347f;
-            bestparams.pulsestrength = 0.15633f;
-            bestparams.topbit = 1.05786f;
-            bestparams.distance = 4.72298f;
-            bestparams.stmix = 7.23535e-06f;
+            bestparams.pulsestrength = 0.764542f;
+            bestparams.topbit = 1.01631f;
+            bestparams.distance = 4.61499f;
+            bestparams.stmix = 0.f;
             break;
         case 6:
-            // current score 9971
-            bestparams.bias = 0.905186f;
-            bestparams.pulsestrength = 3.42315f;
-            bestparams.topbit = 1.78614f;
-            bestparams.distance = 0.0199135f;
-            bestparams.stmix = 0.000204912f;
+            // current score 9199
+            bestparams.bias = 0.877514f;
+            bestparams.pulsestrength = 2.76415f;
+            bestparams.topbit = 1.80281f;
+            bestparams.distance = 0.0235206f;
+            bestparams.stmix = 0.f;
             break;
         case 7:
             // current score 3300
@@ -122,6 +123,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R2 (odd)
     case 'D':
         switch (wave)
         {
@@ -134,11 +136,11 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             bestparams.stmix = 0.783281f;
             break;
         case 5:
-            // current score 18404
+            // current score 18340
             bestparams.bias = 0.888048f;
-            bestparams.pulsestrength = 2.26606f;
-            bestparams.topbit = 0.99697f;
-            bestparams.distance = 0.0422943f;
+            bestparams.pulsestrength = 2.23835f;
+            bestparams.topbit = 1.f;
+            bestparams.distance = 0.0424011f;
             bestparams.stmix = 0.f;
             break;
         case 6:
@@ -159,6 +161,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R2
     case 'E':
         switch (wave)
         {
@@ -196,6 +199,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R2
     case 'F':
         switch (wave)
         {
@@ -233,6 +237,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R2 (odd)
     case 'G':
         switch (wave)
         {
@@ -270,6 +275,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R2
     case 'H':
         switch (wave)
         {
@@ -282,12 +288,12 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             bestparams.stmix = 1.17664e-15f;
             break;
         case 5:
-            // current score 9884
-            bestparams.bias = 0.868414f;
-            bestparams.pulsestrength = 6.44083e-17f;
-            bestparams.topbit = 1.0791f;
-            bestparams.distance = 0.0279448f;
-            bestparams.stmix = 3.10603e-16f;
+            // current score 8918
+            bestparams.bias = 0.86434f;
+            bestparams.pulsestrength = 4.4868e-026f;
+            bestparams.topbit = 1.07048f;
+            bestparams.distance = 0.0292144f;
+            bestparams.stmix = 0.011214f;
             break;
         case 6:
             // current score 3218
@@ -307,6 +313,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R2
     case 'I':
         switch (wave)
         {
@@ -319,12 +326,12 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             bestparams.stmix = 0.672783f;
             break;
         case 5:
-            // current score 10455
+            // current score 9953
             bestparams.bias = 0.883997f;
-            bestparams.pulsestrength = 1.38194f;
-            bestparams.topbit = 1.03288f;
-            bestparams.distance = 0.0311792f;
-            bestparams.stmix = 1.66796e-08f;
+            bestparams.pulsestrength = 1.31797f;
+            bestparams.topbit = 1.03254f;
+            bestparams.distance = 0.0375651f;
+            bestparams.stmix = 4.7419e-020f;
             break;
         case 6:
             // current score 10138
@@ -344,6 +351,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R2
     case 'J':
         switch (wave)
         {
@@ -381,6 +389,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R2
     case 'K':
         switch (wave)
         {
@@ -393,20 +402,20 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             bestparams.stmix = 1.15585e-40f;
             break;
         case 5:
-            // current score 27124
-            bestparams.bias = 0.798028f;
-            bestparams.pulsestrength = 6.4301e-08f;
-            bestparams.topbit = 1.01926f;
-            bestparams.distance = 0.016763f;
-            bestparams.stmix = 0.0576813f;
+            // current score 18810
+            bestparams.bias = 0.809616f;
+            bestparams.pulsestrength = 0.00781541f;
+            bestparams.topbit = 1.03968f;
+            bestparams.distance = 0.0279025f;
+            bestparams.stmix = 0.f;
             break;
         case 6:
-            // current score 4832
-            bestparams.bias = 2.13344f;
-            bestparams.pulsestrength = 33.9207f;
-            bestparams.topbit = 1.29393e-11f;
-            bestparams.distance = 0.000620133f;
-            bestparams.stmix = 0.0815829f;
+            // current score 3602
+            bestparams.bias = 0.938313f;
+            bestparams.pulsestrength = 2.9597f;
+            bestparams.topbit = 1.33806e-012f;
+            bestparams.distance = 0.00624875f;
+            bestparams.stmix = 4.44042e-005f;
             break;
         case 7:
             // current score 612
@@ -418,6 +427,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R2
     case 'L':
         switch (wave)
         {
@@ -430,31 +440,32 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             bestparams.stmix = 3.33487e-07f;
             break;
         case 5:
-            // current score 30194
-            bestparams.bias = 1.18627f;
-            bestparams.pulsestrength = 7.80049f;
-            bestparams.topbit = 0.936008f;
-            bestparams.distance = 0.0245902f;
-            bestparams.stmix = 1.14416e-08f;
+            // current score 13328
+            bestparams.bias = 0.922333f;
+            bestparams.pulsestrength = 2.60989f;
+            bestparams.topbit = 0.986813f;
+            bestparams.distance = 0.0332785f;
+            bestparams.stmix = 0.00711337f;
             break;
         case 6:
-            // current score 12506
-            bestparams.bias = 0.781217f;
-            bestparams.pulsestrength = 1.66282e-08f;
-            bestparams.topbit = 3.25438e-09f;
-            bestparams.distance = 3.24208e-18f;
-            bestparams.stmix = 4.40874e-07f;
+            // current score 9320
+            bestparams.bias = 0.79238f;
+            bestparams.pulsestrength = 6.03516e-011f;
+            bestparams.topbit = 1.26137e-007f;
+            bestparams.distance = 0.0118249f;
+            bestparams.stmix = 1.64637e-007f;
             break;
         case 7:
-            // current score 354
-            bestparams.bias = 0.886003f;
-            bestparams.pulsestrength = 0.551403f;
-            bestparams.topbit = 7.29995e-17f;
-            bestparams.distance = 0.0106613f;
-            bestparams.stmix = 0.678726f;
+            // current score 316
+            bestparams.bias = 0.886393f;
+            bestparams.pulsestrength = 1.01745f;
+            bestparams.topbit = 0.0536235f;
+            bestparams.distance = 0.0476043f;
+            bestparams.stmix = 0.453603;
             break;
         }
         break;
+    // 6581 R2
     case 'M':
         switch (wave)
         {
@@ -492,7 +503,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
-    // 6581 R3
+    // 6581 R2
     case 'N':
         switch (wave)
         {
@@ -505,57 +516,58 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             bestparams.stmix = 0.727679f;
             break;
         case 5:
-            // current score 32024
+            // current score 26520
             bestparams.bias = 2.13986f;
-            bestparams.pulsestrength = 24.8638f;
-            bestparams.topbit = 0.556354f;
-            bestparams.distance = 0.0361677f;
-            bestparams.stmix = 9.4514e-10f;
+            bestparams.pulsestrength = 26.1706f;
+            bestparams.topbit = 0.579717f;
+            bestparams.distance = 0.028143f;
+            bestparams.stmix = 3.84897e-015f;
             break;
         case 6:
-            // current score 1672
-            bestparams.bias = 0.899357f;
-            bestparams.pulsestrength = 1.97051f;
-            bestparams.topbit = 8.15184e-13f;
-            bestparams.distance = 0.013821f;
-            bestparams.stmix = 5.98098e-06f;
+            // current score 1606
+            bestparams.bias = 0.916321f;
+            bestparams.pulsestrength = 2.32213f;
+            bestparams.topbit = 8.47258e-013f;
+            bestparams.distance = 0.0141279f;
+            bestparams.stmix = 2.35569e-011f;
             break;
         case 7:
-            // current score 906
-            bestparams.bias = 0.000214995f;
-            bestparams.pulsestrength = 6.38261e-17f;
-            bestparams.topbit = 2.30117e-07f;
-            bestparams.distance = 165.841f;
-            bestparams.stmix = 6.29022e-06f;
+            // current score 714
+            bestparams.bias = 0.000485839f;
+            bestparams.pulsestrength = 1.37135e-014f;
+            bestparams.topbit = 6.81849e-012f;
+            bestparams.distance = 1.12518f;
+            bestparams.stmix = 5.70641e-005f;
             break;
         }
         break;
+    // 6581 R3
     case 'O':
         switch (wave)
         {
         case 3:
-            // current score 6008
-            bestparams.bias = 0.000813789f;
-            bestparams.pulsestrength = 2.50114e+11f;
-            bestparams.topbit = 1.41542e-35f;
-            bestparams.distance = 3.39815f;
-            bestparams.stmix = 8.55924e-05f;
+            // current score 1780
+            bestparams.bias = 0.932783f;
+            bestparams.pulsestrength = 1.31563e+029f;
+            bestparams.topbit = 0.f;
+            bestparams.distance = 1.13416f;
+            bestparams.stmix = 0.631864f;
             break;
         case 5:
-            // current score 19242
+            // current score 19114
             bestparams.bias = 0.807401f;
-            bestparams.pulsestrength = 5.62415e-11f;
-            bestparams.topbit = 1.0585f;
-            bestparams.distance = 0.0285973f;
-            bestparams.stmix = 0.0052592f;
+            bestparams.pulsestrength = 0.0001979f;
+            bestparams.topbit = 1.0587f;
+            bestparams.distance = 0.0286888f;
+            bestparams.stmix = 9.43233e-035f;
             break;
         case 6:
-            // current score 25914
-            bestparams.bias = 3.21163e+11f;
-            bestparams.pulsestrength = 0.00255188f;
-            bestparams.topbit = 2.00957e-07f;
-            bestparams.distance = 3.65521e+12f;
-            bestparams.stmix = 6.78149e-20f;
+            // current score 9634
+            bestparams.bias = 0.832143f;
+            bestparams.pulsestrength = 0.f;
+            bestparams.topbit = 0.597104f;
+            bestparams.distance = 0.00320875f;
+            bestparams.stmix = 0.f;
             break;
         case 7:
             // current score 1122
@@ -567,6 +579,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R3
     case 'P':
         switch (wave)
         {
@@ -604,24 +617,25 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
+    // 6581 R3
     case 'Q':
         switch (wave)
         {
         case 3:
-            // current score 1190
-            bestparams.bias = 0.943629f;
-            bestparams.pulsestrength = 4.89634e+06f;
-            bestparams.topbit = 0.00145126f;
-            bestparams.distance = 1.3357f;
-            bestparams.stmix = 0.702617f;
+            // current score 1064
+            bestparams.bias = 0.956396f;
+            bestparams.pulsestrength = 0.000197789f;
+            bestparams.topbit = 0.00314584f;
+            bestparams.distance = 2.44162f;
+            bestparams.stmix = 0.696384f;
             break;
         case 5:
-            // current score 12262
+            // current score 9816
             bestparams.bias = 0.950206f;
-            bestparams.pulsestrength = 3.21227f;
-            bestparams.topbit = 0.973889f;
-            bestparams.distance = 0.0167537f;
-            bestparams.stmix = 0.000671572f;
+            bestparams.pulsestrength = 3.29343f;
+            bestparams.topbit = 0.990228f;
+            bestparams.distance = 0.0125732f;
+            bestparams.stmix = 2.77908e-008f;
             break;
         case 6:
             // current score 26080
@@ -641,7 +655,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             break;
         }
         break;
-    // 6581 R4
+    // 6581 R4AR
     case 'R':
         switch (wave)
         {
@@ -654,42 +668,158 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             bestparams.stmix = 9.95657e-10f;
             break;
         case 5:
-            // current score 38377
-            bestparams.bias = 1.00364f;
-            bestparams.pulsestrength = 4.28478f;
-            bestparams.topbit = 0.890698f;
-            bestparams.distance = 0.0602224f;
-            bestparams.stmix = 1.f;
+            // current score 21865
+            bestparams.bias = 0.962869f;
+            bestparams.pulsestrength = 3.92166f;
+            bestparams.topbit = 0.956681f;
+            bestparams.distance = 0.0290248f;
+            bestparams.stmix = 1.08944e-023f;
             break;
         case 6:
-            // current score 28630
-            bestparams.bias = 0.77661f;
-            bestparams.pulsestrength = 9.08503e-17f;
-            bestparams.topbit = 8.07304e-13f;
-            bestparams.distance = 0.00417374f;
-            bestparams.stmix = 0.00052424f;
+            // current score 28440
+            bestparams.bias = 0.778149f;
+            bestparams.pulsestrength = 1.57868e-023f;
+            bestparams.topbit = 1.09552e-021f;
+            bestparams.distance = 0.00475351f;
+            bestparams.stmix = 1.13812e-019f;
             break;
         case 7:
-            // current score 3100
-            bestparams.bias = 3.82796e+10f;
-            bestparams.pulsestrength = 1.01524e-10f;
-            bestparams.topbit = 8.51465e-06f;
-            bestparams.distance = 0.0107765f;
-            bestparams.stmix = 3.36492e-10f;
+            // current score 514
+            bestparams.bias = 0.880881f;
+            bestparams.pulsestrength = 0.788216f;
+            bestparams.topbit = 3.83015e-009f;
+            bestparams.distance = 0.0284442f;
+            bestparams.stmix = 0.657472f;
+            break;
+        }
+        break;
+    
+    // 6581 R4AR
+    case 'S':
+        switch (wave)
+        {
+        case 3:
+            // current score 6776
+            bestparams.bias = 1.26849e-012f;
+            bestparams.pulsestrength = 0.0012997f;
+            bestparams.topbit = 3.2768e-007f;
+            bestparams.distance = 4.29114e+037f;
+            bestparams.stmix = 1.19368e-013f;
+            break;
+        case 5:
+            // current score 13940
+            bestparams.bias = 0.933698f;
+            bestparams.pulsestrength = 2.87927f;
+            bestparams.topbit = 0.976823f;
+            bestparams.distance = 0.0305543f;
+            bestparams.stmix = 0.f;
+            break;
+        case 6:
+            // current score 8834
+            bestparams.bias = 0.792174f;
+            bestparams.pulsestrength = 1.00617e-024f;
+            bestparams.topbit = 0.f;
+            bestparams.distance = 0.0121035f;
+            bestparams.stmix = 0.f;
+            break;
+        case 7:
+            // current score 1838
+            bestparams.bias = std::numeric_limits<float>::infinity();
+            bestparams.pulsestrength = 7.34127e+019f;
+            bestparams.topbit = 5.4315e-007f;
+            bestparams.distance = std::numeric_limits<float>::infinity();
+            bestparams.stmix = 0.174735f;
+            break;
+        }
+        break;
+    
+    // 6581 R4AR
+    case 'T':
+        switch (wave)
+        {
+        case 3:
+            // current score 3258
+            bestparams.bias = 0.0517574f;
+            bestparams.pulsestrength = 1.96004e-016f;
+            bestparams.topbit = 1.38017e+008f;
+            bestparams.distance = std::numeric_limits<float>::infinity();
+            bestparams.stmix = 1.45766e-019f;
+            break;
+        case 5:
+            // current score 21728
+            bestparams.bias = 1.18336f;
+            bestparams.pulsestrength = 7.10237f;
+            bestparams.topbit = 0.868508f;
+            bestparams.distance = 0.0460346f;
+            bestparams.stmix = 1.12104e-043f;
+            break;
+        case 6:
+            // current score 3388
+            bestparams.bias = 0.810845f;
+            bestparams.pulsestrength = 3.84649e-006f;
+            bestparams.topbit = 3.48307e-033f;
+            bestparams.distance = 0.00167655f;
+            bestparams.stmix = 4.9965e-007f;
+            break;
+        case 7:
+            // current score 410
+            bestparams.bias = 1.37665e-008f;
+            bestparams.pulsestrength = 9.19785e-027f;
+            bestparams.topbit = 0.f;
+            bestparams.distance = 0.f;
+            bestparams.stmix = 1.83151e-009f;
+            break;
+        }
+        break;
+    // 6581 R4AR
+    case 'U':
+        switch (wave)
+        {
+        case 3:
+            // current score 5490
+            bestparams.bias = 8.59715e+029f;
+            bestparams.pulsestrength = 7.75512e-022f;
+            bestparams.topbit = 2.2947e-015f;
+            bestparams.distance = std::numeric_limits<float>::infinity();
+            bestparams.stmix = 1.21583e-008f;
+            break;
+        case 5:
+            // current score 13220
+            bestparams.bias = 0.949136f;
+            bestparams.pulsestrength = 2.78247f;
+            bestparams.topbit = 0.993624f;
+            bestparams.distance = 0.0366905f;
+            bestparams.stmix = 4.41635e-034f;
+            break;
+        case 6:
+            // current score 5322
+            bestparams.bias = 0.808887f;
+            bestparams.pulsestrength = 5.68833e-039f;
+            bestparams.topbit = 4.28356e-030f;
+            bestparams.distance = 0.000821859f;
+            bestparams.stmix = 1.01434e-028f;
+            break;
+        case 7:
+            // current score 594
+            bestparams.bias = 0.547587f;
+            bestparams.pulsestrength = 1.44884e-023f;
+            bestparams.topbit = 3.75504e-024f;
+            bestparams.distance = 3.20555e+024f;
+            bestparams.stmix = 0.077303f;
             break;
         }
         break;
     // 8580
-    case 'V':
+    case'V':
         switch (wave)
         {
         case 3:
-            // current score 5339
-            bestparams.bias = 0.979807f;
+            // current score 5029
+            bestparams.bias = 0.986102f;
             bestparams.pulsestrength = 0.f;
-            bestparams.topbit = 0.990736f;
-            bestparams.distance = 9.22678f;
-            bestparams.stmix = 0.824563f;
+            bestparams.topbit = 0.993322f;
+            bestparams.distance = 13.4705f;
+            bestparams.stmix = 0.85413f;
             break;
         case 5:
             // current score 18507
@@ -700,11 +830,11 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
             bestparams.stmix = 0.f;
             break;
         case 6:
-            // current score 16763
-            bestparams.bias = 0.918338f;
-            bestparams.pulsestrength = 2.41154f;
-            bestparams.topbit = 0.927047f;
-            bestparams.distance = 0.171891f;
+            // current score 17694
+            bestparams.bias = 0.926019f;
+            bestparams.pulsestrength = 2.11011f;
+            bestparams.topbit = 0.951848f;
+            bestparams.distance = 0.169977f;
             bestparams.stmix = 0.f;
             break;
         case 7:
