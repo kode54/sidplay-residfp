@@ -1,7 +1,7 @@
 /*
  * This file is part of libsidplayfp, a SID player engine.
  *
- * Copyright 2013 Leandro Nini <drfiemost@users.sourceforge.net>
+ * Copyright 2013-2016 Leandro Nini <drfiemost@users.sourceforge.net>
  * Copyright 2007-2010 Antti Lankila
  *
  * This program is free software; you can redistribute it and/or modify
@@ -22,6 +22,7 @@
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
 
+#include <cmath>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -31,7 +32,7 @@ class Parameters
 public:
     enum
     {
-        BIAS,
+        THRESHOLD,
         PULSESTRENGTH,
         TOPBIT,
         DISTANCE,
@@ -39,14 +40,14 @@ public:
     };
 
 public:
-    float bias, pulsestrength, topbit, distance, stmix;
+    float threshold, pulsestrength, topbit, distance, stmix;
 
 public:
     Parameters() { reset(); }
 
     void reset()
     {
-        bias = 0.f;
+        threshold = 0.f;
         pulsestrength = 0.f;
         topbit = 0.f;
         distance = 0.f;
@@ -57,7 +58,7 @@ public:
     {
         switch (i)
         {
-            case BIAS: return bias;
+            case THRESHOLD: return threshold;
             case PULSESTRENGTH: return pulsestrength;
             case TOPBIT: return topbit;
             case DISTANCE: return distance;
@@ -69,7 +70,7 @@ public:
     {
         switch (i)
         {
-            case BIAS: bias = v; break;
+            case THRESHOLD: threshold = v; break;
             case PULSESTRENGTH: pulsestrength = v; break;
             case TOPBIT: topbit = v; break;
             case DISTANCE: distance = v; break;
@@ -80,7 +81,7 @@ public:
     std::string toString()
     {
         std::ostringstream ss;
-        ss << "bias = " << bias << std::endl;
+        ss << "threshold = " << threshold << std::endl;
         ss << "pulsestrength = " << pulsestrength << std::endl;
         ss << "topbit = " << topbit << std::endl;
         ss << "distance = " << distance << std::endl;
@@ -105,7 +106,7 @@ private:
             }
             if (HasPulse)
             {
-                const float weight = wa[sb - 12 + 12];
+                const float weight = wa[sb];
                 avg += pulsestrength * weight;
                 n += weight;
             }
@@ -120,7 +121,7 @@ private:
         int result = 0;
         for (int cb = 0; cb < 8; cb ++)
         {
-            if (bitarray[4+cb] > bias)
+            if (bitarray[4+cb] > threshold)
                 result |= 1 << cb;
         }
         return result;
@@ -145,17 +146,22 @@ public:
     int Score(int wave, const std::vector<int> &reference, bool print, int bestscore)
     {
         int score = 0;
-        float wa[12 + 12 + 1];
+
+        // distance weight
+        float wa[12 * 2 + 1];
         for (int i = 0; i <= 12; i ++)
         {
-            wa[12-i] = wa[12+i] = 1.0f / (1.0f + i * i * distance);
+            wa[12-i] = wa[12+i] = 1.0f / pow(distance, i);
         }
-        for (int j = 4095; j >= 0; j --)
+
+        for (unsigned int j = 0; j < 4096; j ++)
         {
             /* S */
             float bitarray[12];
-            for (int i = 0; i < 12; i ++)
+            for (unsigned int i = 0; i < 12; i ++)
+            {
                 bitarray[i] = (j & (1 << i)) != 0 ? 1.f : 0.f;
+            }
 
             /* T */
             if ((wave & 3) == 1)
@@ -169,7 +175,7 @@ public:
             }
 
             /* ST */
-            if ((wave & 3) == 3)
+            else if ((wave & 3) == 3)
             {
                 bitarray[0] *= stmix;
                 for (int i = 1; i < 12; i ++)
@@ -178,7 +184,11 @@ public:
                 }
             }
 
-            bitarray[11] *= topbit;
+            // topbit for Saw
+            if ((wave & 2) == 2)
+            {
+                bitarray[11] *= topbit;
+            }
 
             SimulateMix(bitarray, wa, wave > 4);
 
@@ -189,9 +199,9 @@ public:
             if (print)
             {
                 float analogval = 0.f;
-                for (int i = 0; i < 12; i ++)
+                for (unsigned int i = 0; i < 12; i ++)
                 {
-                    float val = (bitarray[i] - bias) * 512 + 0.5f;
+                    float val = (bitarray[i] - threshold) * 512 + 0.5f;
                     if (val < 0.f)
                         val = 0.f;
                     else if (val > 1.f)
@@ -206,6 +216,7 @@ public:
                           << std::endl;
             }
 
+            // halt if we already are worst than the best score
             if (score > bestscore)
             {
                 return score;
