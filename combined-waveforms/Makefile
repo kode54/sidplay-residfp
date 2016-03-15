@@ -6,4 +6,4 @@ clean:
 	$(RM) combined
 
 %: %.cpp
-	$(CXX) $(CXXFLAGS) $< -o $@
+	$(CXX) $(CXXFLAGS) -std=c++11 $< -o $@

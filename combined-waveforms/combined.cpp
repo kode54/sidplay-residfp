@@ -19,28 +19,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include <cstdlib>
 #include <cassert>
 #include <ctime>
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <string>
 #include <vector>
 #include <limits>
+#include <random>
 
 #include "parameters.h"
 
 static const float EPSILON = 1e-3;
 
-static double randomNextDouble()
-{
-    return static_cast<double>(rand()) / static_cast<double>(RAND_MAX);
-}
+static std::default_random_engine prng;
+static std::normal_distribution<> normal_dist(1.0, 0.2);
 
 static double GetRandomValue()
 {
-    return 0.99 + randomNextDouble() * 0.02;
+    return normal_dist(prng);
 }
 
 static void Optimize(const std::vector<int> &reference, int wave, char chip)
@@ -836,15 +835,15 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
                 const float oldValue = bestparams.GetValue(i);
                 float newValue = oldValue;
 
-                if (randomNextDouble() > 0.5)
+                if (GetRandomValue() > 1.0)
                 {
                     //std::cout << newValue << " -> ";
                     newValue = (float)(GetRandomValue()*newValue);
-                    //newValue += (randomNextDouble() > 0.5) ? +GetRandomValue() : -GetRandomValue();
+                    //newValue += (GetRandomValue() > 0.5) ? +GetRandomValue() : -GetRandomValue();
                     //std::cout << newValue << std::endl;
 
                     if (newValue < EPSILON)
-                        newValue = (float)randomNextDouble();
+                        newValue = (float)GetRandomValue();
 
                     if ((i == Parameters::STMIX || i == Parameters::THRESHOLD) && (newValue > 1.f))
                     {
