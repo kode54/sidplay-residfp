@@ -36,13 +36,19 @@ static const float EPSILON = 1e-3;
 
 static std::default_random_engine prng;
 static std::normal_distribution<> normal_dist(1.0, 0.2);
+static std::normal_distribution<> normal_dist2(0.5, 0.1);
 
 static double GetRandomValue()
 {
     return normal_dist(prng);
 }
 
-static void Optimize(const std::vector<int> &reference, int wave, char chip)
+static float GetNewRandomValue()
+{
+    return static_cast<float>(normal_dist2(prng));
+}
+
+static void Optimize(const ref_vector_t &reference, int wave, char chip)
 {
     Parameters bestparams;
     switch (chip)
@@ -801,7 +807,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
         break;
     }
 
-    int bestscore = bestparams.Score(wave, reference, true, 4096 * 255);
+    unsigned int bestscore = bestparams.Score(wave, reference, true, 4096 * 255);
     std::cout << "# initial score " << bestscore << std::endl << bestparams.toString() << std::endl << std::endl;
     if (bestscore == 0)
         exit(0);
@@ -812,22 +818,22 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
         bool changed = false;
         while (!changed)
         {
-            for (int i = Parameters::THRESHOLD; i <= Parameters::STMIX; i++)
+            for (Param_t i = Param_t::THRESHOLD; i <= Param_t::STMIX; i++)
             {
                 // PULSESTRENGTH only affects pulse
-                if ((i==Parameters::PULSESTRENGTH) && ((wave & 0x04) != 0x04))
+                if ((i==Param_t::PULSESTRENGTH) && ((wave & 0x04) != 0x04))
                 {
                     continue;
                 }
 
                 // STMIX only affects saw/triangle mix
-                if ((i==Parameters::STMIX) && ((wave & 0x03) != 0x03))
+                if ((i==Param_t::STMIX) && ((wave & 0x03) != 0x03))
                 {
                     continue;
                 }
 
                 // TOPBIT only affects saw
-                if ((i==Parameters::TOPBIT) && ((wave & 0x02) != 0x02))
+                if ((i==Param_t::TOPBIT) && ((wave & 0x02) != 0x02))
                 {
                     continue;
                 }
@@ -838,14 +844,14 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
                 if (GetRandomValue() > 1.0)
                 {
                     //std::cout << newValue << " -> ";
-                    newValue = (float)(GetRandomValue()*newValue);
-                    //newValue += (GetRandomValue() > 0.5) ? +GetRandomValue() : -GetRandomValue();
+                    newValue = static_cast<float>(GetRandomValue()*newValue);
+                    //newValue += GetRandomValue();
                     //std::cout << newValue << std::endl;
 
                     if (newValue < EPSILON)
-                        newValue = (float)GetRandomValue();
+                        newValue = GetNewRandomValue();
 
-                    if ((i == Parameters::STMIX || i == Parameters::THRESHOLD) && (newValue > 1.f))
+                    if ((i == Param_t::STMIX || i == Param_t::THRESHOLD) && (newValue > 1.f))
                     {
                         newValue = 1.f;
                     }
@@ -855,7 +861,7 @@ static void Optimize(const std::vector<int> &reference, int wave, char chip)
                 changed = changed || oldValue != newValue;
             }
         }
-        const int score = p.Score(wave, reference, false, bestscore);
+        const unsigned int score = p.Score(wave, reference, false, bestscore);
         // accept if improvement
         if (score < bestscore)
         {
@@ -881,10 +887,10 @@ static std::vector<std::string> split(const std::string &s, char delim)
     return elems;
 }
 
-static std::vector<int> ReadChip(int wave, char chip)
+static ref_vector_t ReadChip(int wave, char chip)
 {
     std::cout << "Reading chip: " << chip << std::endl;
-    std::vector<int> result;
+    ref_vector_t result;
 
     std::ostringstream fileName;
     fileName << "sidwaves/WAVE" << wave << ".CSV";
@@ -912,10 +918,10 @@ int main(int argc, const char* argv[])
     const char chip = argv[2][0];
     assert(chip >= 'A' && chip <= 'Z');
 
-    std::vector<int> reference = ReadChip(wave, chip);
+    ref_vector_t reference = ReadChip(wave, chip);
 
 #ifndef NDEBUG
-    for (std::vector<int>::iterator it = reference.begin(); it != reference.end(); ++it)
+    for (ref_vector_t::iterator it = reference.begin(); it != reference.end(); ++it)
         std::cout << (*it) << std::endl;
 #endif
 

@@ -23,22 +23,25 @@
 #define PARAMETERS_H
 
 #include <cmath>
+
 #include <vector>
 #include <string>
 #include <sstream>
 
+enum class Param_t
+{
+    THRESHOLD,
+    PULSESTRENGTH,
+    TOPBIT,
+    DISTANCE,
+    STMIX
+};
+inline Param_t& operator++(Param_t& x, int) { return x = static_cast<Param_t>(static_cast<std::underlying_type<Param_t>::type>(x) + 1); }
+
+typedef std::vector<unsigned int> ref_vector_t;
+
 class Parameters
 {
-public:
-    enum
-    {
-        THRESHOLD,
-        PULSESTRENGTH,
-        TOPBIT,
-        DISTANCE,
-        STMIX
-    };
-
 public:
     float threshold, pulsestrength, topbit, distance, stmix;
 
@@ -54,27 +57,27 @@ public:
         stmix = 0.f;
     }
 
-    float GetValue(int i)
+    float GetValue(Param_t i)
     {
         switch (i)
         {
-            case THRESHOLD: return threshold;
-            case PULSESTRENGTH: return pulsestrength;
-            case TOPBIT: return topbit;
-            case DISTANCE: return distance;
-            case STMIX: return stmix;
+            case Param_t::THRESHOLD: return threshold;
+            case Param_t::PULSESTRENGTH: return pulsestrength;
+            case Param_t::TOPBIT: return topbit;
+            case Param_t::DISTANCE: return distance;
+            case Param_t::STMIX: return stmix;
         }
     }
 
-    void SetValue(int i, float v)
+    void SetValue(Param_t i, float v)
     {
         switch (i)
         {
-            case THRESHOLD: threshold = v; break;
-            case PULSESTRENGTH: pulsestrength = v; break;
-            case TOPBIT: topbit = v; break;
-            case DISTANCE: distance = v; break;
-            case STMIX: stmix = v; break;
+            case Param_t::THRESHOLD: threshold = v; break;
+            case Param_t::PULSESTRENGTH: pulsestrength = v; break;
+            case Param_t::TOPBIT: topbit = v; break;
+            case Param_t::DISTANCE: distance = v; break;
+            case Param_t::STMIX: stmix = v; break;
         }
     }
 
@@ -116,9 +119,9 @@ private:
             bitarray[i] = tmp[i];
     }
 
-    int GetScore8(float bitarray[12])
+    unsigned int GetScore8(float bitarray[12])
     {
-        int result = 0;
+        unsigned int result = 0;
         for (int cb = 0; cb < 8; cb ++)
         {
             if (bitarray[4+cb] > threshold)
@@ -143,7 +146,7 @@ private:
     }
 
 public:
-    int Score(int wave, const std::vector<int> &reference, bool print, int bestscore)
+    unsigned int Score(int wave, const ref_vector_t &reference, bool print, unsigned int bestscore)
     {
         int score = 0;
 
@@ -192,8 +195,8 @@ public:
 
             SimulateMix(bitarray, wa, wave > 4);
 
-            const int simval = GetScore8(bitarray);
-            const int refval = reference[j];
+            const unsigned int simval = GetScore8(bitarray);
+            const unsigned int refval = reference[j];
             score += ScoreResult(simval, refval);
 
             if (print)
