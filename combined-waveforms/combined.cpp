@@ -34,7 +34,7 @@
 
 static const float EPSILON = 1e-3;
 
-static std::default_random_engine prng;
+static std::default_random_engine prng(std::random_device{}());
 static std::normal_distribution<> normal_dist(1.0, 0.2);
 static std::normal_distribution<> normal_dist2(0.5, 0.1);
 
