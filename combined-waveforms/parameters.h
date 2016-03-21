@@ -28,6 +28,7 @@
 #include <string>
 #include <sstream>
 
+// Model parameters
 enum class Param_t
 {
     THRESHOLD,
@@ -36,7 +37,11 @@ enum class Param_t
     DISTANCE,
     STMIX
 };
-inline Param_t& operator++(Param_t& x, int) { return x = static_cast<Param_t>(static_cast<std::underlying_type<Param_t>::type>(x) + 1); }
+// define the postix increment operator to allow looping over enum
+inline Param_t& operator++(Param_t& x, int)
+{
+    return x = static_cast<Param_t>(static_cast<std::underlying_type<Param_t>::type>(x) + 1);
+}
 
 typedef std::vector<unsigned int> ref_vector_t;
 
@@ -93,15 +98,15 @@ public:
     }
 
 private:
-    void SimulateMix(float bitarray[12], float wa[], bool HasPulse)
+    void SimulateMix(float bitarray[12], float wa[], bool HasPulse) const
     {
         float tmp[12];
 
-        for (int sb = 0; sb < 12; sb ++)
+        for (int sb = 0; sb < 12; sb++)
         {
             float n = 0.f;
             float avg = 0.f;
-            for (int cb = 0; cb < 12; cb ++)
+            for (int cb = 0; cb < 12; cb++)
             {
                 const float weight = wa[sb - cb + 12];
                 avg += bitarray[cb] * weight;
@@ -115,14 +120,17 @@ private:
             }
             tmp[sb] = (bitarray[sb] + avg / n) * 0.5f;
         }
-        for (int i = 0; i < 12; i ++)
+        for (int i = 0; i < 12; i++)
             bitarray[i] = tmp[i];
     }
 
-    unsigned int GetScore8(float bitarray[12])
+    /**
+     * Get the upper 8 bits of the predicted value.
+     */
+    unsigned int GetScore8(float bitarray[12]) const
     {
         unsigned int result = 0;
-        for (int cb = 0; cb < 8; cb ++)
+        for (int cb = 0; cb < 8; cb++)
         {
             if (bitarray[4+cb] > threshold)
                 result |= 1 << cb;
@@ -130,60 +138,90 @@ private:
         return result;
     }
 
-    static int ScoreResult(int a, int b)
+    /**
+     * Calculate audible error.
+     */
+    static unsigned int ScoreResult(unsigned int a, unsigned int b)
     {
-        // audible error
-        int v = a ^ b;
-        return v;
-/*      int c = 0;
-        while (v != 0)
+        return a ^ b;
+    }
+
+    /**
+     * Count number of mispredicted bits.
+     */
+    static unsigned int WrongBits(unsigned int v)
+    {
+        // Brian Kernighan's method goes through as many iterations as there are set bits
+        unsigned int c = 0;
+        for (; v; c++)
         {
-            v &= v - 1;
-            c ++;
+          v &= v - 1;
         }
         return c;
-*/
+    }
+
+    float getAnalogValue(float bitarray[12]) const
+    {
+        float analogval = 0.f;
+        for (unsigned int i = 0; i < 12; i++)
+        {
+            float val = (bitarray[i] - threshold) * 512 + 0.5f;
+            if (val < 0.f)
+                val = 0.f;
+            else if (val > 1.f)
+                val = 1.f;
+            analogval += val * (1 << i);
+        }
+        return analogval / 16.f;
     }
 
 public:
     unsigned int Score(int wave, const ref_vector_t &reference, bool print, unsigned int bestscore)
     {
-        int score = 0;
+        unsigned int totalScore = 0;
+        unsigned int wrongBits = 0;
 
-        // distance weight
+        /*
+         * Calculate the weight as an exponential function of distance.
+         * The quadratic model gives better results for some combinations
+         * like waveforms 5 and 6 for 8580 model, maybe something worth looking into.
+         */
         float wa[12 * 2 + 1];
-        for (int i = 0; i <= 12; i ++)
+        for (int i = 0; i <= 12; i++)
         {
-            wa[12-i] = wa[12+i] = 1.0f / pow(distance, i);
+            wa[12-i] = wa[12+i] = 1.0f / pow(distance, i); // (1.f + (i*i) * distance);
         }
 
-        for (unsigned int j = 0; j < 4096; j ++)
+        // loop over the 4096 oscillator values
+        for (unsigned int j = 0; j < 4096; j++)
         {
-            /* S */
             float bitarray[12];
-            for (unsigned int i = 0; i < 12; i ++)
+
+            // Saw
+            for (unsigned int i = 0; i < 12; i++)
             {
                 bitarray[i] = (j & (1 << i)) != 0 ? 1.f : 0.f;
             }
 
-            /* T */
+            // Change to Triangle
             if ((wave & 3) == 1)
             {
                 const bool top = (j & 2048) != 0;
-                for (int i = 11; i > 0; i --)
+                for (int i = 11; i > 0; i--)
                 {
                     bitarray[i] = top ? 1.f - bitarray[i-1] : bitarray[i-1];
                 }
                 bitarray[0] = 0.f;
             }
 
-            /* ST */
+            // or Saw + Triangle
             else if ((wave & 3) == 3)
             {
                 bitarray[0] *= stmix;
-                for (int i = 1; i < 12; i ++)
+                const float compl_stmix = 1.f - stmix;
+                for (int i = 1; i < 12; i++)
                 {
-                    bitarray[i] = bitarray[i-1] * (1.f - stmix) + bitarray[i] * stmix;
+                    bitarray[i] = bitarray[i-1] * compl_stmix + bitarray[i] * stmix;
                 }
             }
 
@@ -195,37 +233,36 @@ public:
 
             SimulateMix(bitarray, wa, wave > 4);
 
+            // Calculate score
             const unsigned int simval = GetScore8(bitarray);
             const unsigned int refval = reference[j];
-            score += ScoreResult(simval, refval);
+            const unsigned int score = ScoreResult(simval, refval);
+            totalScore += score;
+            wrongBits += WrongBits(score);
 
             if (print)
             {
-                float analogval = 0.f;
-                for (unsigned int i = 0; i < 12; i ++)
-                {
-                    float val = (bitarray[i] - threshold) * 512 + 0.5f;
-                    if (val < 0.f)
-                        val = 0.f;
-                    else if (val > 1.f)
-                        val = 1.f;
-                    analogval += val * (1 << i);
-                }
-                analogval /= 16.f;
                 std::cout << j << " "
                           << refval << " "
                           << simval << " "
-                          << analogval << " "
+                          << (simval ^ refval) << " "
+#if 0
+                          << getAnalogValue(bitarray) << " "
+#endif
                           << std::endl;
             }
 
             // halt if we already are worst than the best score
-            if (score > bestscore)
+            if (totalScore > bestscore)
             {
-                return score;
+                return totalScore;
             }
         }
-        return score;
+#if 0
+        // print the rate of wrong bits
+        std::cout << static_cast<double>(wrongBits*1000)/(4096*8) << std::endl;
+#endif
+        return totalScore;
     }
 };
 
