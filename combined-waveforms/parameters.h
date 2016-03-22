@@ -37,13 +37,43 @@ enum class Param_t
     DISTANCE,
     STMIX
 };
-// define the postix increment operator to allow looping over enum
+// define the postfix increment operator to allow looping over enum
 inline Param_t& operator++(Param_t& x, int)
 {
     return x = static_cast<Param_t>(static_cast<std::underlying_type<Param_t>::type>(x) + 1);
 }
 
 typedef std::vector<unsigned int> ref_vector_t;
+
+struct score_t
+{
+    unsigned int audible_error;
+    unsigned int wrong_bits;
+
+    score_t() :
+        audible_error(0),
+        wrong_bits(0)
+    {}
+
+    double wrongBitsRate() const
+    {
+        return static_cast<double>(wrong_bits*1000)/(4096*8);
+    }
+
+    bool isBetter(const score_t& newScore) const
+    {
+        return (newScore.audible_error < audible_error)
+            || ((newScore.audible_error == audible_error)
+                && (newScore.wrong_bits < wrong_bits));
+    }
+};
+
+std::ostream & operator<<(std::ostream & os, const score_t & foo)
+{
+   os.precision(2);
+   os << foo.audible_error << " (" << std::fixed << foo.wrongBitsRate() << ")";
+   return os;
+}
 
 class Parameters
 {
@@ -176,10 +206,9 @@ private:
     }
 
 public:
-    unsigned int Score(int wave, const ref_vector_t &reference, bool print, unsigned int bestscore)
+    score_t Score(int wave, const ref_vector_t &reference, bool print, unsigned int bestscore)
     {
-        unsigned int totalScore = 0;
-        unsigned int wrongBits = 0;
+        score_t score;
 
         /*
          * Calculate the weight as an exponential function of distance.
@@ -236,9 +265,9 @@ public:
             // Calculate score
             const unsigned int simval = GetScore8(bitarray);
             const unsigned int refval = reference[j];
-            const unsigned int score = ScoreResult(simval, refval);
-            totalScore += score;
-            wrongBits += WrongBits(score);
+            const unsigned int error = ScoreResult(simval, refval);
+            score.audible_error += error;
+            score.wrong_bits += WrongBits(error);
 
             if (print)
             {
@@ -253,16 +282,16 @@ public:
             }
 
             // halt if we already are worst than the best score
-            if (totalScore > bestscore)
+            if (score.audible_error > bestscore)
             {
-                return totalScore;
+                return score;
             }
         }
 #if 0
         // print the rate of wrong bits
-        std::cout << static_cast<double>(wrongBits*1000)/(4096*8) << std::endl;
+        std::cout << score.wrongBitsRate() << std::endl;
 #endif
-        return totalScore;
+        return score;
     }
 };
 
