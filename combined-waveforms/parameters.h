@@ -55,9 +55,11 @@ struct score_t
         wrong_bits(0)
     {}
 
-    double wrongBitsRate() const
+    std::string wrongBitsRate() const
     {
-        return static_cast<double>(wrong_bits*1000)/(4096*8);
+        std::ostringstream o;
+        o << wrong_bits << "/" << 4096*8;
+        return o.str();
     }
 
     bool isBetter(const score_t& newScore) const
@@ -301,10 +303,6 @@ public:
                 }
             }
         }
-#if 0
-        // print the rate of wrong bits
-        std::cout << score.wrongBitsRate() << std::endl;
-#endif
         return score;
     }
 };
