@@ -208,8 +208,6 @@ private:
 public:
     score_t Score(int wave, const ref_vector_t &reference, bool print, unsigned int bestscore)
     {
-        score_t score;
-
         /*
          * Calculate the weight as an exponential function of distance.
          * The quadratic model gives better results for some combinations
@@ -221,70 +219,86 @@ public:
             wa[12-i] = wa[12+i] = 1.0f / pow(distance, i); // (1.f + (i*i) * distance);
         }
 
+        score_t score;
+
+        bool done = false;
+
         // loop over the 4096 oscillator values
+        #pragma omp parallel for ordered
         for (unsigned int j = 0; j < 4096; j++)
         {
-            float bitarray[12];
-
-            // Saw
-            for (unsigned int i = 0; i < 12; i++)
+            #pragma omp flush(done)
+            if (!done)
             {
-                bitarray[i] = (j & (1 << i)) != 0 ? 1.f : 0.f;
-            }
+                float bitarray[12];
 
-            // Change to Triangle
-            if ((wave & 3) == 1)
-            {
-                const bool top = (j & 2048) != 0;
-                for (int i = 11; i > 0; i--)
+                // Saw
+                for (unsigned int i = 0; i < 12; i++)
                 {
-                    bitarray[i] = top ? 1.f - bitarray[i-1] : bitarray[i-1];
+                    bitarray[i] = (j & (1 << i)) != 0 ? 1.f : 0.f;
                 }
-                bitarray[0] = 0.f;
-            }
 
-            // or Saw + Triangle
-            else if ((wave & 3) == 3)
-            {
-                bitarray[0] *= stmix;
-                const float compl_stmix = 1.f - stmix;
-                for (int i = 1; i < 12; i++)
+                // Change to Triangle
+                if ((wave & 3) == 1)
                 {
-                    bitarray[i] = bitarray[i-1] * compl_stmix + bitarray[i] * stmix;
+                    const bool top = (j & 2048) != 0;
+                    for (int i = 11; i > 0; i--)
+                    {
+                        bitarray[i] = top ? 1.f - bitarray[i-1] : bitarray[i-1];
+                    }
+                    bitarray[0] = 0.f;
                 }
-            }
 
-            // topbit for Saw
-            if ((wave & 2) == 2)
-            {
-                bitarray[11] *= topbit;
-            }
+                // or Saw + Triangle
+                else if ((wave & 3) == 3)
+                {
+                    bitarray[0] *= stmix;
+                    const float compl_stmix = 1.f - stmix;
+                    for (int i = 1; i < 12; i++)
+                    {
+                        bitarray[i] = bitarray[i-1] * compl_stmix + bitarray[i] * stmix;
+                    }
+                }
 
-            SimulateMix(bitarray, wa, wave > 4);
+                // topbit for Saw
+                if ((wave & 2) == 2)
+                {
+                    bitarray[11] *= topbit;
+                }
 
-            // Calculate score
-            const unsigned int simval = GetScore8(bitarray);
-            const unsigned int refval = reference[j];
-            const unsigned int error = ScoreResult(simval, refval);
-            score.audible_error += error;
-            score.wrong_bits += WrongBits(error);
+                SimulateMix(bitarray, wa, wave > 4);
 
-            if (print)
-            {
-                std::cout << j << " "
-                          << refval << " "
-                          << simval << " "
-                          << (simval ^ refval) << " "
+                // Calculate score
+                const unsigned int simval = GetScore8(bitarray);
+                const unsigned int refval = reference[j];
+                const unsigned int error = ScoreResult(simval, refval);
+                #pragma omp atomic
+                score.audible_error += error;
+                #pragma omp atomic
+                score.wrong_bits += WrongBits(error);
+
+                if (print)
+                {
+                    #pragma omp ordered
+                    std::cout << j << " "
+                            << refval << " "
+                            << simval << " "
+                            << (simval ^ refval) << " "
 #if 0
-                          << getAnalogValue(bitarray) << " "
+                            << getAnalogValue(bitarray) << " "
 #endif
-                          << std::endl;
-            }
+                            << std::endl;
+                }
 
-            // halt if we already are worst than the best score
-            if (score.audible_error > bestscore)
-            {
-                return score;
+                // halt if we already are worst than the best score
+                if (score.audible_error > bestscore)
+                {
+                    done = true;
+                    #pragma omp flush(done)
+#ifndef _OPENMP
+                    return score;
+#endif
+                }
             }
         }
 #if 0
