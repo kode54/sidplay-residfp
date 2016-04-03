@@ -27,6 +27,9 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <limits>
+
+typedef std::numeric_limits<float> flt;
 
 // Model parameters
 enum class Param_t
@@ -121,6 +124,7 @@ public:
     std::string toString()
     {
         std::ostringstream ss;
+        ss.precision(flt::max_digits10);
         ss << "threshold = " << threshold << std::endl;
         ss << "pulsestrength = " << pulsestrength << std::endl;
         ss << "topbit = " << topbit << std::endl;
@@ -212,13 +216,15 @@ public:
     {
         /*
          * Calculate the weight as an exponential function of distance.
-         * The quadratic model gives better results for some combinations
-         * like waveforms 5 and 6 for 8580 model, maybe something worth looking into.
+         * The quadratic model (1.f + (i*i) * distance) gives better results for 
+         * waveforms 6 for 8580 model.
+         * The linear model (1.f + i * distance) is quite good for waveform 6 for 6581.
+         * Waveform 5 shows mixed results for both 6581 and 8580.
          */
         float wa[12 * 2 + 1];
         for (int i = 0; i <= 12; i++)
         {
-            wa[12-i] = wa[12+i] = 1.0f / pow(distance, i); // (1.f + (i*i) * distance);
+            wa[12-i] = wa[12+i] = 1.0f / pow(distance, i);
         }
 
         score_t score;
@@ -254,17 +260,31 @@ public:
                 // or Saw + Triangle
                 else if ((wave & 3) == 3)
                 {
+#if 1
                     bitarray[0] *= stmix;
                     const float compl_stmix = 1.f - stmix;
                     for (int i = 1; i < 12; i++)
                     {
-                        bitarray[i] = bitarray[i-1] * compl_stmix + bitarray[i] * stmix;
+                        // Why is triangle bit not XORed with top bit?
+                        bitarray[i] = bitarray[i] * stmix + bitarray[i-1] * compl_stmix;
                     }
+#else
+                    const float compl_stmix = 1.f - stmix;
+                    for (int i = 11; i > 0; i--)
+                    {
+                        bitarray[i] = bitarray[i] * stmix + bitarray[i-1] * compl_stmix;
+                    }
+                    bitarray[0] *= stmix;
+#endif
                 }
 
                 // topbit for Saw
                 if ((wave & 2) == 2)
                 {
+                    // Why does this happen?
+                    // For 6581 this is mostly 0 while for 8580 it's near 1
+                    // A few 'odd' 6581 chips show a strangely high value
+                    // for Pulse-Saw combination
                     bitarray[11] *= topbit;
                 }
 
