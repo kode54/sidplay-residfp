@@ -265,7 +265,14 @@ public:
                     const float compl_stmix = 1.f - stmix;
                     for (int i = 1; i < 12; i++)
                     {
-                        // Why is triangle bit not XORed with top bit?
+                        /*
+                         * Enabling the S waveform pulls the XOR circuit selector transistor down
+                         * (which would normally make the descending ramp of the triangle waveform),
+                         * so ST does not actually have a sawtooth and triangle waveform combined,
+                         * but merely combines two sawtooths, one rising double the speed the other.
+                         *
+                         * http://www.lemon64.com/forum/viewtopic.php?t=25442&postdays=0&postorder=asc&start=165
+                         */
                         bitarray[i] = bitarray[i] * stmix + bitarray[i-1] * compl_stmix;
                     }
 #else

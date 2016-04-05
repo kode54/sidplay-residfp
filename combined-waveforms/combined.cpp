@@ -68,8 +68,8 @@ static float GetNewRandomValue()
 static void Optimize(const ref_vector_t &reference, int wave, char chip)
 {
     Parameters bestparams;
-    
-    /**
+
+    /*
      * The score here reported is the acoustic error.
      * In parentheses the number of mispredicted bits
      * on a total of 32768.
@@ -264,11 +264,11 @@ static void Optimize(const ref_vector_t &reference, int wave, char chip)
             bestparams.distance = 1.15628f;
             break;
         case 6:
-            // current score 18853 (902)
-            bestparams.threshold = 0.873724f;
-            bestparams.pulsestrength = 1.89335f;
-            bestparams.topbit = 1.11071f; // ???
-            bestparams.distance = 1.16689f;
+            // current score 18853 (895)
+            bestparams.threshold = 0.873468816f;
+            bestparams.pulsestrength = 1.88981843f;
+            bestparams.topbit = 1.11070073f; // ???
+            bestparams.distance = 1.1667527f;
             break;
         case 7:
             // current score 74 (10)
