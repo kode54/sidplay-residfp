@@ -37,7 +37,8 @@ enum class Param_t
     THRESHOLD,
     PULSESTRENGTH,
     TOPBIT,
-    DISTANCE,
+    DISTANCE1,
+    DISTANCE2,
     STMIX
 };
 // define the postfix increment operator to allow looping over enum
@@ -83,7 +84,7 @@ std::ostream & operator<<(std::ostream & os, const score_t & foo)
 class Parameters
 {
 public:
-    float threshold, pulsestrength, topbit, distance, stmix;
+    float threshold, pulsestrength, topbit, distance1, distance2, stmix;
 
 public:
     Parameters() { reset(); }
@@ -93,7 +94,8 @@ public:
         threshold = 0.f;
         pulsestrength = 0.f;
         topbit = 0.f;
-        distance = 0.f;
+        distance1 = 0.f;
+        distance2 = 0.f;
         stmix = 0.f;
     }
 
@@ -104,7 +106,8 @@ public:
             case Param_t::THRESHOLD: return threshold;
             case Param_t::PULSESTRENGTH: return pulsestrength;
             case Param_t::TOPBIT: return topbit;
-            case Param_t::DISTANCE: return distance;
+            case Param_t::DISTANCE1: return distance1;
+            case Param_t::DISTANCE2: return distance2;
             case Param_t::STMIX: return stmix;
         }
     }
@@ -116,7 +119,8 @@ public:
             case Param_t::THRESHOLD: threshold = v; break;
             case Param_t::PULSESTRENGTH: pulsestrength = v; break;
             case Param_t::TOPBIT: topbit = v; break;
-            case Param_t::DISTANCE: distance = v; break;
+            case Param_t::DISTANCE1: distance1 = v; break;
+            case Param_t::DISTANCE2: distance2 = v; break;
             case Param_t::STMIX: stmix = v; break;
         }
     }
@@ -128,7 +132,8 @@ public:
         ss << "threshold = " << threshold << std::endl;
         ss << "pulsestrength = " << pulsestrength << std::endl;
         ss << "topbit = " << topbit << std::endl;
-        ss << "distance = " << distance << std::endl;
+        ss << "distance1 = " << distance1 << std::endl;
+        ss << "distance2 = " << distance2 << std::endl;
         ss << "stmix = " << stmix << std::endl;
         return ss.str();
     }
@@ -187,7 +192,7 @@ private:
      */
     static unsigned int WrongBits(unsigned int v)
     {
-        // Brian Kernighan's method goes through as many iterations as there are set bits
+        // Brian Kernighan's method, goes through as many iterations as there are set bits
         unsigned int c = 0;
         for (; v; c++)
         {
@@ -206,7 +211,7 @@ private:
                 val = 0.f;
             else if (val > 1.f)
                 val = 1.f;
-            analogval += val * (1 << i);
+            analogval += ldexp(val, i);
         }
         return analogval / 16.f;
     }
@@ -220,11 +225,15 @@ public:
          * waveforms 6 for 8580 model.
          * The linear model (1.f + i * distance) is quite good for waveform 6 for 6581.
          * Waveform 5 shows mixed results for both 6581 and 8580.
+         * Furthermore the cross-bits effect seems to be asymmetric.
+         * TODO: try to come up with a generic distance function to
+         * cover all scenarios, maybe a polynomial will do...
          */
         float wa[12 * 2 + 1];
         for (int i = 0; i <= 12; i++)
         {
-            wa[12-i] = wa[12+i] = 1.0f / pow(distance, i);
+            wa[12-i] = 1.0f / pow(distance1, i);
+            wa[12+i] = 1.0f / pow(distance2, i);
         }
 
         score_t score;
@@ -310,13 +319,13 @@ public:
                 {
                     #pragma omp ordered
                     std::cout << j << " "
-                            << refval << " "
-                            << simval << " "
-                            << (simval ^ refval) << " "
+                              << refval << " "
+                              << simval << " "
+                              << (simval ^ refval) << " "
 #if 0
-                            << getAnalogValue(bitarray) << " "
+                              << getAnalogValue(bitarray) << " "
 #endif
-                            << std::endl;
+                              << std::endl;
                 }
 
                 // halt if we already are worst than the best score
