@@ -230,7 +230,8 @@ public:
          * cover all scenarios, maybe a polynomial will do...
          */
         float wa[12 * 2 + 1];
-        for (int i = 0; i <= 12; i++)
+        wa[12] = 1.f;
+        for (int i = 12; i > 0; i--)
         {
             wa[12-i] = 1.0f / pow(distance1, i);
             wa[12+i] = 1.0f / pow(distance2, i);
