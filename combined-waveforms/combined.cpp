@@ -272,35 +272,35 @@ static void Optimize(const ref_vector_t &reference, int wave, char chip)
         {
         case 3:
             // current score 1697 (282)
-            bestparams.threshold = 0.897718906f;
+            bestparams.threshold = 0.89772f;
             bestparams.topbit = 0.f;
-            bestparams.distance1 = 1.83614922f;
-            bestparams.distance2 = 1.71034312f;
-            bestparams.stmix = 0.605697691f;
+            bestparams.distance1 = 1.83615f;
+            bestparams.distance2 = 1.71034f;
+            bestparams.stmix = 0.6057f;
             break;
         case 5:
             // current score 6128 (130)
-            bestparams.threshold = 0.930880666f;
-            bestparams.pulsestrength = 2.48425317f;
-            bestparams.distance1 = 1.03527164f;
-            bestparams.distance2 = 1.14841056f;
+            bestparams.threshold = 0.93088f;
+            bestparams.pulsestrength = 2.4843f;
+            bestparams.distance1 = 1.0353f;
+            bestparams.distance2 = 1.1484f;
             break;
         case 6:
             // current score 14243 (632)
-            bestparams.threshold = 0.90987885f;
-            bestparams.pulsestrength = 2.26302528f;
-            bestparams.topbit = 1.13125956f; // ???
-            bestparams.distance1 = 1.00350118f;
-            bestparams.distance2 = 1.1380055f;
+            bestparams.threshold = 0.90988f;
+            bestparams.pulsestrength = 2.26303f;
+            bestparams.topbit = 1.13126f; // ???
+            bestparams.distance1 = 1.0035f;
+            bestparams.distance2 = 1.13801f;
             break;
         case 7:
             // current score 64 (2)
-            bestparams.threshold = 0.910034657f;
-            bestparams.pulsestrength = 1.19194627f;
+            bestparams.threshold = 0.91f;
+            bestparams.pulsestrength = 1.192f;
             bestparams.topbit = 0.f;
-            bestparams.distance1 = 1.01689148f;
-            bestparams.distance2 = 1.20046568f;
-            bestparams.stmix = 0.637140095f;
+            bestparams.distance1 = 1.0169f;
+            bestparams.distance2 = 1.2f;
+            bestparams.stmix = 0.637f;
             break;
         }
         break;
