@@ -233,8 +233,8 @@ public:
         wa[12] = 1.f;
         for (int i = 12; i > 0; i--)
         {
-            wa[12-i] = 1.0f / pow(distance1, i);
-            wa[12+i] = 1.0f / pow(distance2, i);
+            wa[12-i] = pow(distance1, -i);
+            wa[12+i] = pow(distance2, -i);
         }
 
         score_t score;
