@@ -83,6 +83,26 @@ std::ostream & operator<<(std::ostream & os, const score_t & foo)
 
 class Parameters
 {
+private:
+    typedef float (*distance_t)(float, int);
+
+private:
+    // Distance functions
+    static float exponentialDistance(float distance, int i)
+    {
+        return pow(distance, -i);
+    }
+
+    static float linearDistance(float distance, int i)
+    {
+        return 1.f / (1.f + i * distance);
+    }
+
+    static float quadraticDistance(float distance, int i)
+    {
+        return 1.f / (1.f + (i*i) * distance);
+    }
+
 public:
     float threshold, pulsestrength, topbit, distance1, distance2, stmix;
 
@@ -217,24 +237,26 @@ private:
     }
 
 public:
-    score_t Score(int wave, const ref_vector_t &reference, bool print, unsigned int bestscore)
+    score_t Score(int wave, bool is8580, const ref_vector_t &reference, bool print, unsigned int bestscore)
     {
         /*
-         * Calculate the weight as an exponential function of distance.
+         * Calculate the weight as a function of distance.
          * The quadratic model (1.f + (i*i) * distance) gives better results for 
          * waveforms 6 for 8580 model.
          * The linear model (1.f + i * distance) is quite good for waveform 6 for 6581.
          * Waveform 5 shows mixed results for both 6581 and 8580.
          * Furthermore the cross-bits effect seems to be asymmetric.
          * TODO: try to come up with a generic distance function to
-         * cover all scenarios, maybe a polynomial will do...
+         * cover all scenarios...
          */
+        const distance_t distFunc = (wave & 1) == 1 ? exponentialDistance : is8580 ? quadraticDistance : linearDistance;
+
         float wa[12 * 2 + 1];
         wa[12] = 1.f;
         for (int i = 12; i > 0; i--)
         {
-            wa[12-i] = pow(distance1, -i);
-            wa[12+i] = pow(distance2, -i);
+            wa[12-i] = distFunc(distance1, i);
+            wa[12+i] = distFunc(distance2, i);
         }
 
         score_t score;
