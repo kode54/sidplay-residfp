@@ -842,12 +842,12 @@ static void Optimize(const ref_vector_t &reference, int wave, char chip)
             bestparams.distance2 =  1.43527f;
             break;
         case 6:
-            // current score 9878 (344)
-            bestparams.threshold = 0.948265f;
-            bestparams.pulsestrength = 1.83084f;
-            bestparams.topbit = 0.99762f;
-            bestparams.distance1 = 0.00775f;
-            bestparams.distance2 = 0.18415f;
+            // current score 9596 (324)
+            bestparams.threshold = 0.958310068f;
+            bestparams.pulsestrength = 1.95269263f;
+            bestparams.topbit = 0.992986143f;
+            bestparams.distance1 = 0.00773835462f;
+            bestparams.distance2 = 0.184085369f;
             break;
         case 7:
             // current score 2347 (81)
