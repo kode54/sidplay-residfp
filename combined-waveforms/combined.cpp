@@ -888,13 +888,13 @@ static void Optimize(const ref_vector_t &reference, int wave, char chip)
             bestparams.distance2 = 0.294430673f;
             break;
         case 7:
-            // current score 2259 (124)
-            bestparams.threshold = 0.996412754f;
-            bestparams.pulsestrength = 1.67767012f;
-            bestparams.topbit = 0.997264445f;
-            bestparams.distance1 = 0.847964227f;
-            bestparams.distance2 = 1.47978008f;
-            bestparams.stmix = 0.728253603f;
+            // current score 2179 (114)
+            bestparams.threshold = 0.99762404f;
+            bestparams.pulsestrength = 1.69934988f;
+            bestparams.topbit = 0.995506406f;
+            bestparams.distance1 = 0.859833479f;
+            bestparams.distance2 = 1.48090434f;
+            bestparams.stmix = 0.730056643f;
             break;
         }
         break;
