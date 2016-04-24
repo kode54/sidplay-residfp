@@ -278,8 +278,8 @@ public:
                     bitarray[i] = (j & (1 << i)) != 0 ? 1.f : 0.f;
                 }
 
-                // Change to Triangle
-                if ((wave & 3) == 1)
+                // If Saw is not selected the bits are XORed
+                if ((wave & 2) == 0)
                 {
                     const bool top = (j & 2048) != 0;
                     for (int i = 11; i > 0; i--)
@@ -289,7 +289,11 @@ public:
                     bitarray[0] = 0.f;
                 }
 
-                // or Saw + Triangle
+                // If both Saw and Triangle are selected the bits are interconnected
+                //
+                // @NOTE: on the 8580 the triangle selector transistors, with the exception 
+                // of the lowest four bits, are half the width of the other selectors.
+                // How does this affects combined waveforms?
                 else if ((wave & 3) == 3)
                 {
 #if 1
