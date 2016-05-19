@@ -22,12 +22,16 @@
 #include "WaveformCalculator.h"
 
 #include <cmath>
+#include <mutex>
 
 namespace reSIDfp
 {
 
+static std::mutex g_WaveFormCalculator_mutex;
+
 WaveformCalculator* WaveformCalculator::getInstance()
 {
+	std::lock_guard<std::mutex> guard(g_WaveFormCalculator_mutex);
     static WaveformCalculator instance;
     return &instance;
 }
