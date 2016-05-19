@@ -27,14 +27,22 @@
 namespace reSIDfp
 {
 
-static std::mutex g_WaveFormCalculator_mutex;
+// Doing it this way somehow prevents race conditions
+
+std::unique_ptr<WaveformCalculator> WaveformCalculator::instance(nullptr);
+static std::mutex g_WaveformCalculator_mutex;
 
 WaveformCalculator* WaveformCalculator::getInstance()
 {
-	std::lock_guard<std::mutex> guard(g_WaveFormCalculator_mutex);
-    static WaveformCalculator instance;
-    return &instance;
+	std::lock_guard<std::mutex> guard(g_WaveformCalculator_mutex);
+	if (!instance.get())
+	{
+		instance.reset(new WaveformCalculator());
+	}
+
+	return instance.get();
 }
+
 
 /**
  * Parameters derived with the Monte Carlo method based on
