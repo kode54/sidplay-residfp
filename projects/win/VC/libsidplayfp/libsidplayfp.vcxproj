@@ -220,8 +220,10 @@
     <ClCompile Include="..\..\..\..\libsidplayfp\src\sidemu.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\sidplayfp\sidbuilder.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\sidplayfp\SidConfig.cpp" />
+    <ClCompile Include="..\..\..\..\libsidplayfp\src\sidplayfp\SidInfo.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\sidplayfp\sidplayfp.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\sidplayfp\SidTune.cpp" />
+    <ClCompile Include="..\..\..\..\libsidplayfp\src\sidplayfp\SidTuneInfo.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\sidtune\MUS.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\sidtune\p00.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\sidtune\prg.cpp" />
@@ -229,6 +231,7 @@
     <ClCompile Include="..\..\..\..\libsidplayfp\src\sidtune\SidTuneBase.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\sidtune\SidTuneTools.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\utils\iniParser.cpp" />
+    <ClCompile Include="..\..\..\..\libsidplayfp\src\utils\md5Factory.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\utils\MD5\MD5.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\utils\SidDatabase.cpp" />
     <ClCompile Include="..\..\..\..\libsidplayfp\src\utils\STILview\stil.cpp" />

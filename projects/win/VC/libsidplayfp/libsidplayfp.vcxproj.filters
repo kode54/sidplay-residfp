@@ -229,6 +229,15 @@
     <ClCompile Include="..\..\..\..\libsidplayfp\src\builders\residfp-builder\residfp\resample\test.cpp">
       <Filter>libsidplayfp\Source Files\builders\residfp-builder\residfp\resample</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\libsidplayfp\src\sidplayfp\SidInfo.cpp">
+      <Filter>libsidplayfp\Source Files\sidplayfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libsidplayfp\src\sidplayfp\SidTuneInfo.cpp">
+      <Filter>libsidplayfp\Source Files\sidplayfp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libsidplayfp\src\utils\md5Factory.cpp">
+      <Filter>libsidplayfp\Source Files\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\libsidplayfp\src\EventScheduler.h">
