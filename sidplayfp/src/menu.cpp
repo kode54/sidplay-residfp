@@ -442,4 +442,5 @@ const char* ConsolePlayer::getModel (SidTuneInfo::model_t model)
     case SidTuneInfo::SIDMODEL_ANY:
         return "ANY";
     }
+    return "";
 }
